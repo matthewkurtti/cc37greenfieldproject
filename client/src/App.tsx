@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const url: string =
+  const url =
     import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
 
-  const [data, setData] = useState({ message: "I didn't get you 👎" });
+  const [data, setData] = useState<string | null>(null);
 
   useEffect(() => {
     getData();
@@ -23,10 +23,7 @@ function App() {
 
   return (
     <>
-      <h1> SoundCrowd </h1>
-      <p>{url}</p>
-
-      {/* <header>
+      <header>
         <div className="logo">
           <span className="icon">🎵</span>
           <h1>SoundCrowd</h1>
@@ -56,7 +53,7 @@ function App() {
             aliquam, erat mauris ultricies neque, vel tincidunt dui erat a nisi.
           </div>
         </section>
-      </main> */}
+      </main>
     </>
   );
 }

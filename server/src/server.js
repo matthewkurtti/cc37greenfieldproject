@@ -15,7 +15,9 @@ if (process.env.NODE_ENV === 'development') {
 app.use(express.json());
 
 app.get('/api/user', async (req, res) => {
-  res.json({ message: 'I got you 👍' });
+  const users = await knex.select('*').from('users').limit(100);
+
+  res.json(users);
 });
 
 app.listen(port, () => {
