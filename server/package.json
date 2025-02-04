@@ -1,0 +1,25 @@
+{
+  "name": "imm-midterm-assessment-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node ./src/server.js",
+    "express-dev": "nodemon ./src/server.js",
+    "migrate-latest": "",
+    "migrate-down": "",
+    "seed-data": "",
+    "build": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/codechrysalis/IMM-Midterm-Assessment"
+  },
+  "dependencies": {
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "knex": "^2.5.1",
+    "pg": "^8.11.3"
+  }
+}
