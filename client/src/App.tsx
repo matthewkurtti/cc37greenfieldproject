@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
-  const url =
+  const url: string =
     import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
 
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<object | null>(null);
 
   useEffect(() => {
     getData();
@@ -15,7 +15,7 @@ function App() {
     console.log(data);
   }, [data]);
 
-  const getData = async () => {
+  const getData: () => void = async () => {
     const response = await fetch(`${url}api/user`);
     const result = await response.json();
     setData(result);
