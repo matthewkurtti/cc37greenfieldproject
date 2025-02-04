@@ -5,12 +5,10 @@ const knex = require('./knex');
 
 const app = express();
 
-if (process.env.NODE_ENV === 'development') {
+if (!process.env.NODE_ENV) {
   app.use(cors());
-  console.log('development');
 } else {
   app.use('/', express.static(path.join(__dirname, '../../client/dist')));
-  console.log('production');
 }
 
 app.use(express.json());
