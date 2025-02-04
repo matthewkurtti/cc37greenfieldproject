@@ -26,7 +26,7 @@ function App() {
       <h1> SoundCrowd </h1>
       <p>{url}</p>
 
-      <header>
+      {/* <header>
         <div className="logo">
           <span className="icon">🎵</span>
           <h1>SoundCrowd</h1>
@@ -56,7 +56,7 @@ function App() {
             aliquam, erat mauris ultricies neque, vel tincidunt dui erat a nisi.
           </div>
         </section>
-      </main>
+      </main> */}
     </>
   );
 }
