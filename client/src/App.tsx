@@ -5,7 +5,7 @@ function App() {
   const url =
     import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
 
-  const [data, setData] = useState<string | null>(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     getData();
