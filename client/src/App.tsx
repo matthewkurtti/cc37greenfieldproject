@@ -2,8 +2,12 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  console.log('MODE:', import.meta.env.MODE);
+
   const url: string =
     import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
+
+  console.log('URL:', url);
 
   const [data, setData] = useState<object | null>(null);
 
@@ -12,7 +16,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(data);
+    console.log('DATA:', data);
   }, [data]);
 
   const getData: () => void = async () => {

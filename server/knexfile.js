@@ -1,22 +1,21 @@
-/* You may need to fix this file */
 require('dotenv').config({ path: './.env.local' });
 
 const DB_USER = process.env.DB_USER;
-const DB_NAME = process.env.DB_NAME;
+const DB_PASSWORD = process.env.DB_PASSWORD;
 const DB_HOST = '127.0.0.1';
 const DB_PORT = '5432';
+const DB_NAME = process.env.DB_NAME;
 const DB_URL = process.env.DATABASE_URL;
-const DB_PASSWORD = process.env.DB_PASSWORD;
 
 module.exports = {
   development: {
     client: 'pg',
-    connection: DB_URL || {
-      host: DB_HOST || '127.0.0.1',
-      port: DB_PORT || '5432',
-      database: DB_NAME,
+    connection: {
       user: DB_USER,
       password: DB_PASSWORD,
+      host: DB_HOST,
+      port: DB_PORT,
+      database: DB_NAME,
     },
     migrations: {
       directory: './db/migrations',

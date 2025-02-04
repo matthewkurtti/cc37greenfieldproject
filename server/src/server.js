@@ -3,13 +3,14 @@ const cors = require('cors');
 const path = require('path');
 const knex = require('./knex');
 
-const port = process.env.PORT || 8080;
 const app = express();
 
 if (process.env.NODE_ENV === 'development') {
   app.use(cors());
+  console.log('development');
 } else {
   app.use('/', express.static(path.join(__dirname, '../../client/dist')));
+  console.log('production');
 }
 
 app.use(express.json());
@@ -19,6 +20,8 @@ app.get('/api/user', async (req, res) => {
 
   res.json(users);
 });
+
+const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
   console.log(`We can hear you over on port ${port} 👂`);
