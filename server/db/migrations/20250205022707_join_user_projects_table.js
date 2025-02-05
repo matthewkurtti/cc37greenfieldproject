@@ -16,7 +16,8 @@ exports.up = function(knex) {
         .inTable('projects')
         .onDelete('CASCADE');
       table.timestamps(true, true);
-      table.primary(['user_id', 'project_id']);
+ 
+      table.primary(['user_id', 'project_id']); // join columns as primary key
     });
 };
 
@@ -25,6 +26,5 @@ exports.up = function(knex) {
  * @returns { Promise<void> }
  */
 exports.down = function(knex) {
-  // Uncomment and properly return the promise
   return knex.schema.dropTable('user_projects');
 };

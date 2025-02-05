@@ -16,8 +16,8 @@ exports.up = function(knex) {
           .inTable('stems')
           .onDelete('CASCADE');
         table.timestamps(true, true);
-        // Make both columns together the primary key
-        table.primary(['project_id', 'stem_id']);
+
+        table.primary(['project_id', 'stem_id']); // join columns as primary key
       });
   };
   

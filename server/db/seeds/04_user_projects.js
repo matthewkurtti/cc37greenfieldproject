@@ -6,12 +6,12 @@ exports.seed = async function(knex) {
     await knex('user_projects').del();
     return knex('user_projects').insert([
       { 
-        user_id: users[0].id, 
-        project_id: projects[0].id 
+        user_id: 1, 
+        project_id: 2
       },
       { 
-        user_id: users[1].id, 
-        project_id: projects[2].id 
+        user_id: 2, 
+        project_id: 3
       },
 
     ]);
