@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 const ProfilePage = () => {
   return (
     <div className="profile-page">

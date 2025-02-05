@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 const LogInPage = () => {
   return (
     <div className="log-in-page">
