@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
+  // TEST
+
   console.log('MODE:', import.meta.env.MODE);
 
   const url: string =
