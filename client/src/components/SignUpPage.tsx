@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 const SignUpPage = () => {
   return (
     <div className="sign-up-page">
