@@ -6,6 +6,10 @@ const cors = require("cors");
 const environment = process.env.NODE_ENV || 'development';
 const config = require("./knexfile.js")[environment];
 const knex = require("knex")(config);
+const bcrypt = require('bcrypt');
+
+const session = require('express-session');
+const pgSession = require('connect-pg-simple')(session);
 
 const app = express();
 
@@ -13,8 +17,19 @@ const app = express();
 app.use(express.static(path.join(__dirname, '../client/dist')));
 app.use(express.json());
 app.use(cors());
+app.use(session({
+  store: new pgSession({
+    pool: knex.client.pool,
+    tableName: 'session'
+  }),
+  secret: 'your_session_secret',
+  resave: false,
+  saveUninitialized: false,
+  cookie: { secure: false }
+}))
 
 const port = process.env.PORT || 8080;
+
 
 // "server is working" preliminary test
 app.get("/ping", (req, res) => {
@@ -51,21 +66,87 @@ app.get("/test/", async (req, res) => {
 });
 
 // "put" testing endpoint (update)
-
+app.put('/test/', async (req,res) => {
+  try{
+    res.json({ message: "Put route is working correctly."});
+  } catch(error){
+    console.error("Database connection error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 
 // "delete" testing endpoint (delete)
-
+app.delete('/delete', async (req,res) => {
+  try{
+    res.json({ message: "Delete route is working correctly."});
+  } catch(error){
+    console.error("Database connection error.", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 // ---------- Authentication ---------- */ 
 
 // POST /api/auth/register
 // it (should allow a new user to register)
+app.post('/api/auth/register', async (req, res) => {
+  try{
+    const { username, password, city, country} = req.body;
+    const hashedPassword = await bcrypt.hash(password, 10);
 
+    const [newUser] = await knex('users')
+      .insert({
+        username,
+        password:hashedPassword,
+        city,
+        country
+      })
+      .returning(['id','username','city','country']);
+    
+    res.status(201).json({ message: 'User registered successfully', user:newUser });
+  } catch (error) {
+    console.error("Database connection errror.", error);
+    res.status(500).json({ errror: error.message });
+  }
+});
 // POST /api/auth/login
-// it (should allow the user to login once registered)
+app.post('/api/auth/login', async (req, res) => {
+  try {
+    const { username, password } = req.body;
+  
+    const user = await knex('user')
+      .where({ username })
+      .first();
 
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid credentials' });
+    }
+
+    req.session.userId = user.id;
+    req.session.username = user.username;
+
+    res.json({ message: 'Login succesful' });
+  } catch (error) {
+    console.error("Database connection error.", error);
+    res.status(500).json({ error: error.message });
+  }
+})
 // POST /api/auth/logout
-// it (should log the user out)
+// it (should log the user out) 
+app.post('/api/auth/logout', (req, res) => {
+  req.sessionID.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ error: 'Failed to logout'});
+    }
+    res.json({ message: 'Logout  successful' })
+  })
+})
 
 // ---------- Project ---------- */ 
 
