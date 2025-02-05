@@ -1,0 +1,14 @@
+.project-page {
+  height: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: #fff;
+}
+
+.project-page-title {
+  margin-bottom: 0.5rem;
+}
+
+.project-page-desc {
+  margin-bottom: 0.5rem;
+}
