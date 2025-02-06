@@ -44,6 +44,18 @@ app.get('/api/user', async (req, res) => {
   }
 });
 
+app.delete('/api/user/:id', async (req, res) => {
+  console.log('GOT HERE');
+  try {
+    const id = req.params.id;
+    await knex('users').where('id', id).del();
+    res.json({ message: 'Delete route is working correctly.' });
+  } catch (error) {
+    console.error('Database connection error.', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // "get" testing endpoint (read)
 app.get('/test/', async (req, res) => {
   try {
