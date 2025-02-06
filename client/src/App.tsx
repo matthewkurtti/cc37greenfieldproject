@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getData, deleteData } from './helpers/fetchHelpers';
 import ProjectItem from './components/ProjectItem';
 import ProfilePage from './components/ProfilePage';
 import SignUpPage from './components/SignUpPage';
@@ -8,8 +9,6 @@ import './App.css';
 import logo from './assets/soundcloud_logo.png';
 
 function App() {
-  // TEST
-
   console.log('MODE:', import.meta.env.MODE);
 
   const url: string =
@@ -21,21 +20,30 @@ function App() {
   const [currentModal, setCurrentModal] = useState<JSX.Element | null>(null);
 
   useEffect(() => {
-    getData();
+    const result = getData(url, 'api/user');
+    setData(result);
   }, []);
 
   useEffect(() => {
     console.log('DATA:', data);
   }, [data]);
+
   useEffect(() => {
     console.log('CURRENT MODAL:', currentModal);
   }, [currentModal]);
 
-  const getData = async () => {
-    const response = await fetch(`${url}api/user`);
-    const result = await response.json();
-    setData(result);
-  };
+  useEffect(() => {
+    (async () => {
+      const result = await getData(url, 'api/user');
+      setData(result);
+    })();
+  }, []);
+
+  // const getData = async () => {
+  //   const response = await fetch(`${url}api/user`);
+  //   const result = await response.json();
+  //   setData(result);
+  // };
 
   return (
     <>
@@ -87,8 +95,29 @@ function App() {
           </ul>
         </section>
       </main>
+      <footer>
+        <button
+          onClick={async () => {
+            const result = await getData(url, 'api/user');
+            setData(result);
+          }}
+        >
+          Test Get
+        </button>
+        <button
+          onClick={async () => {
+            await deleteData(1, url, 'api/user');
+            const result = await getData(url, 'api/user');
+            setData(result);
+          }}
+        >
+          Test Delete
+        </button>
+      </footer>
     </>
   );
 }
 
 export default App;
+
+//<button onClick={() => {getData()}}>Test Patch</button>
