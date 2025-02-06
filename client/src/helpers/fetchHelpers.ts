@@ -13,8 +13,8 @@ export const deleteData = async (id: number, url: string, endpoint: string) => {
 export const postData = async (
   url: string,
   endpoint: string,
-  contentType: string = 'application/json',
-  objToPost: object
+  objToPost: object,
+  contentType: string = 'application/json'
 ) => {
   const response = await fetch(`${url}${endpoint}`, {
     method: 'POST',
