@@ -1,12 +1,9 @@
 :root {
-  
   /* font book */
-  --title-text: "Krona One", serif;
-  --body-text: "Lexend", serif;
-  --misc-text: "Josefin Sans", serif;
-  --block-text: "Bebas Neue", serif;
-
-
+  --title-text: 'Krona One', serif;
+  --body-text: 'Lexend', serif;
+  --misc-text: 'Josefin Sans', serif;
+  --block-text: 'Bebas Neue', serif;
 }
 
 .App {
@@ -97,10 +94,9 @@ dialog .content {
   background-color: red;
 }
 
-/* ---- headers ---- */ 
+/* ---- headers ---- */
 
 h1 {
-
 }
 
 h2 {
@@ -118,14 +114,13 @@ input {
   margin: 5px;
 }
 
-
 .title {
   text-align: center;
   width: 30vw;
   padding: 2vw 1vw;
   border-radius: 10px 10px 0 0;
   font-size: 2rem;
-  font-family: var(--block-text)
+  font-family: var(--block-text);
 }
 
 label {
@@ -134,4 +129,9 @@ label {
   color: black;
 }
 
-
+footer {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
