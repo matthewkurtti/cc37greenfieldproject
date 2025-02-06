@@ -1,4 +1,3 @@
-import { useState, useEffect } from 'react';
 import './ProjectPage.css';
 
 const ProjectPage = () => {
@@ -16,9 +15,9 @@ const ProjectPage = () => {
         <ul>
           <li>
             <div className="member">
-              <span>Name: Some Guy</span>
+              <span className="member-name">Name: Some Guy</span>
               <div className="tags">
-                <span>Drummer</span>
+                <span className="">Drummer</span>
                 <span>Guitarist</span>
                 <span>Leader</span>
               </div>
