@@ -5,6 +5,9 @@ const ProjectPage = () => {
   return (
     <div className="project-page">
       <h2 className="project-page-title">PROJECT TITLE</h2>
+      <br />
+      <hr />
+      <h3>Project Description</h3>
       <p className="project-page-desc">
         This a description about this awesome project!
       </p>
