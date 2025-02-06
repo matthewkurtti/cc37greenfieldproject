@@ -5,10 +5,10 @@ import LogInPage from '../components/LogInPage';
 
 import './SignUpPage.css';
 
-interface SignupResponse {
-  message: string;
-  token?: string; // optional value
-}
+// interface SignupResponse {
+//   message: string;
+//   token?: string; // optional value
+// }
 
 type SignUpPageProps = {
   setData: React.Dispatch<React.SetStateAction<object | null>>;
