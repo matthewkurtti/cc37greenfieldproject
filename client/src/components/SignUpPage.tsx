@@ -66,7 +66,7 @@ const SignUpPage: React.FC = () => {
 
       <form onSubmit={handleSubmit} className="App">
         <label htmlFor="username" className="inputLabel">
-          Username:
+          Username
         </label>
         <input
           name="username"
@@ -84,7 +84,7 @@ const SignUpPage: React.FC = () => {
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)} // sets the value of 'password' to this field on change
-          placeholder="Your Secret Rock Mantra..."
+          placeholder="A Secret Rock Mantra..."
         />
 
         <label htmlFor="city" className="inputLabel">
@@ -106,7 +106,7 @@ const SignUpPage: React.FC = () => {
           type="text"
           value={homeCountry}
           onChange={(e) => setHomeCountry(e.target.value)}
-          placeholder="Where Do You Tour..."
+          placeholder="The Country You Tour..."
         />
 
         <br></br>
