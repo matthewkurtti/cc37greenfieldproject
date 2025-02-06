@@ -1,4 +1,5 @@
 import './ProjectItem.css';
+import './Modal.css';
 
 type ModalProps = {
   currentModal: JSX.Element | null;
@@ -16,7 +17,7 @@ const Modal = ({ currentModal, setCurrentModal }: ModalProps) => {
             setCurrentModal(null);
           }}
         >
-          X
+          <img className="modalCloseButton" src='../images/circle-close-multiple-svgrepo-com.svg' />
         </button>
       </div>
     </div>

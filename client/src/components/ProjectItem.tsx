@@ -8,7 +8,7 @@ type ProjectItemProps = {
 const ProjectItem = ({ setCurrentModal }: ProjectItemProps) => {
   return (
     <div className="projectItem" onClick={() => setCurrentModal(<ProjectPage />)}>
-      <span className="projectTitle">Title</span><br /> 
+      <span className="projectTitle">TITLE</span><br /> 
       <span className="projectDescription">Description</span>
     </div>
   );

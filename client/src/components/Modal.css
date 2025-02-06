@@ -1,0 +1,5 @@
+.modalCloseButton {
+    width: 22px;
+    height: 22px;
+    filter: invert(99%) sepia(2%) saturate(44%) hue-rotate(163deg) brightness(118%) contrast(100%);
+}

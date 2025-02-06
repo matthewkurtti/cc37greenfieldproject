@@ -8,3 +8,11 @@
   border-top-left-radius: 20px;
   border-bottom-right-radius: 20px;
 }
+
+.projectTitle {
+  font-family: 'Lexend', sans-serif;
+}
+
+.projectDescription {
+  font-family: 'Josefin Sans', sans-serif;
+}
