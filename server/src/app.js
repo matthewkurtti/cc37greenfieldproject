@@ -1,8 +1,8 @@
 require('dotenv').config({ path: './.env.local' });
 
-const { google } = require('googleapis')
-const path = require('path')
-const fs = require('fs')
+const { google } = require('googleapis');
+const path = require('path');
+const fs = require('fs');
 
 const oauth2Client = new google.auth.OAuth2(
     process.env.CLIENT_ID,
@@ -10,64 +10,69 @@ const oauth2Client = new google.auth.OAuth2(
     process.env.REDIRECT_URI
 );
 
-oauth2Client.setCredentials({refresh_token: process.env.REFRESH_TOKEN})
-
-const filePath = path.join(__dirname, 'file.type')
+oauth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
 
 const Drive = google.drive({
     version: 'v3',
     auth: oauth2Client
-})
+});
 
-async function uploadFile() {
+async function uploadFile(filePath, fileName) {
     try {
-        const response = await drive.files.create({
+        const response = await Drive.files.create({
             requestBody: {
-                name:'file name saved on google drive',
+                name: fileName,
                 mimeType: 'audio/mpeg'
             },
             media: {
                 mimeType: 'audio/mpeg',
                 body: fs.createReadStream(filePath)
             }
-        })
+        });
 
         console.log(response.data);
+        return response.data;
     } catch (error) {
-       console.log(error.message) 
+        console.log(error.message);
+        throw error;
     }
-    
 }
 
-async function deleteFile() {
+async function deleteFile(fileId) {
     try {
-        const response = await drive.files.delete({
-            fileId: 'file id'
+        const response = await Drive.files.delete({
+            fileId: fileId
         });
-        console.log(response.data, response.status)
+        console.log(response.data, response.status);
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
     }
-    
 }
 
-async function generatePublicUrl() {
+async function generatePublicUrl(fileId) {
     try {
-        const fileId = 'file id'
-        await drive.permissions.create({
+        await Drive.permissions.create({
             fileId: fileId,
             requestBody: {
                 role: 'reader',
-                type:'anyone'
+                type: 'anyone'
             }
-        })
+        });
 
-        const result = await drive.files.get({
+        const result = await Drive.files.get({
             fileId: fileId,
-            fields: 'webViewLinks, webContentLink',
+            fields: 'webViewLink, webContentLink',
         });
         console.log(result.data);
+        return result.data;
     } catch (error) {
-        console.log(error.message)
+        console.log(error.message);
+        throw error;
     }
 }
+
+module.exports = {
+    uploadFile,
+    deleteFile,
+    generatePublicUrl
+};

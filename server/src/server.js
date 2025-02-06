@@ -5,10 +5,14 @@ const bcrypt = require('bcrypt');
 const cors = require('cors');
 const path = require('path');
 const knex = require('./knex');
+const multer = require('multer');
+const { uploadFile, generatePublicUrl } = require('./app');
 
 const app = express();
 
 // ---------- Middleware (START) ---------- */
+const upload = multer({ dest: 'uploads/' });
+
 if (!process.env.NODE_ENV) {
   app.use(cors());
 } else {
@@ -173,6 +177,36 @@ app.get('/api/auth/logout', (req, res) => {
   });
 });
 // ----------- Authentication (END) ----------- */
+
+// file handle api
+app.post('/api/user/upload', upload.single('file'), async (req, res) => {
+  try {
+    const { file } = req;
+    if (!file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+
+    // Upload the file to Google Drive
+    const uploadedFile = await uploadFile(file.path, file.originalname);
+
+    // Generate a public URL for the uploaded file
+    const publicUrl = await generatePublicUrl(uploadedFile.id);
+
+    // Store the file ID and URL in the stems table
+    const [newStem] = await knex('stems')
+      .insert({
+        stem_name: file.originalname,
+        url: publicUrl.webViewLink
+      })
+      .returning(['id', 'stem_name', 'url']);
+
+    res.status(201).json({ message: 'File uploaded successfully', stem: newStem });
+  } catch (error) {
+    console.error('File upload error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 
 // app.get('*', (req, res) => {
 //   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
