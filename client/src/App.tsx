@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getData, deleteData } from './helpers/fetchHelpers';
+import { getData, deleteData, postData } from './helpers/fetchHelpers';
 
 // components
 import ProjectItem from './components/ProjectItem';
@@ -44,12 +44,6 @@ function App() {
       setData(result);
     })();
   }, []);
-
-  // const getData = async () => {
-  //   const response = await fetch(`${url}api/user`);
-  //   const result = await response.json();
-  //   setData(result);
-  // };
 
   return (
     <>
@@ -119,11 +113,23 @@ function App() {
         >
           Test Delete
         </button>
+        <button
+          onClick={async () => {
+            await postData(url, 'api/auth/register', {
+              username: 'Joe',
+              password: 'joepass',
+              city: 'Hamamatsu',
+              country: 'Japan',
+            });
+            const result = await getData(url, 'api/user');
+            setData(result);
+          }}
+        >
+          Test Post
+        </button>
       </footer>
     </>
   );
 }
 
 export default App;
-
-//<button onClick={() => {getData()}}>Test Patch</button>

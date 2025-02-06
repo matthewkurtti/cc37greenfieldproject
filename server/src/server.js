@@ -37,7 +37,7 @@ app.use(
 );
 // ----------- Middleware (END) ----------- */
 
-// "get" testing endpoint (get all users)
+// "get" endpoint (get all users)
 app.get('/api/user', async (req, res) => {
   try {
     const users = await knex.select('*').from('users').limit(100);
@@ -48,8 +48,8 @@ app.get('/api/user', async (req, res) => {
   }
 });
 
+// "post" endpoint (delete user by id)
 app.delete('/api/user/:id', async (req, res) => {
-  console.log('GOT HERE');
   try {
     const id = req.params.id;
     await knex('users').where('id', id).del();
@@ -60,32 +60,12 @@ app.delete('/api/user/:id', async (req, res) => {
   }
 });
 
-// "get" testing endpoint (read)
-app.get('/test/', async (req, res) => {
-  try {
-    res.json({ message: 'Get route is working correctly.' });
-  } catch (error) {
-    console.error('Database connection error:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
 // "put" testing endpoint (update)
 app.put('/test/', async (req, res) => {
   try {
     res.json({ message: 'Put route is working correctly.' });
   } catch (error) {
     console.error('Database connection error:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// "delete" testing endpoint (delete)
-app.delete('/delete', async (req, res) => {
-  try {
-    res.json({ message: 'Delete route is working correctly.' });
-  } catch (error) {
-    console.error('Database connection error.', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -196,21 +176,18 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
     const [newStem] = await knex('stems')
       .insert({
         stem_name: file.originalname,
-        url: publicUrl.webViewLink
+        url: publicUrl.webViewLink,
       })
       .returning(['id', 'stem_name', 'url']);
 
-    res.status(201).json({ message: 'File uploaded successfully', stem: newStem });
+    res
+      .status(201)
+      .json({ message: 'File uploaded successfully', stem: newStem });
   } catch (error) {
     console.error('File upload error:', error);
     res.status(500).json({ error: error.message });
   }
 });
-
-
-// app.get('*', (req, res) => {
-//   res.sendFile(path.join(__dirname, '../client/dist/index.html'));
-// });
 
 const port = process.env.PORT || 8080;
 
