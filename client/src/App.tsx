@@ -1,11 +1,15 @@
 import { useState, useEffect } from 'react';
+
+// components
 import ProjectItem from './components/ProjectItem';
 import ProfilePage from './components/ProfilePage';
 import SignUpPage from './components/SignUpPage';
 import LogInPage from './components/LogInPage';
 import Modal from './components/Modal';
-import './App.css';
 import logo from './assets/soundcloud_logo.png';
+
+// images
+import './App.css';
 
 function App() {
   // TEST

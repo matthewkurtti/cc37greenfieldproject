@@ -3,3 +3,8 @@
   background-color: #8ececc;
   cursor: pointer;
 }
+
+.projectItem {
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+}
