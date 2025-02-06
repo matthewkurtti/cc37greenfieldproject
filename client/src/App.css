@@ -1,13 +1,12 @@
-
 :root {
-  --title-text: var(font-family: "Krona One", serif);
-  --body-text: var(font-family: "Lexend", serif);
-  --misc-text: var(font-family: "Josefin Sans", serif);
-  --block-text: var(font-family: "Bebas Neue", serif);
-}
+  
+  /* font book */
+  --title-text: "Krona One", serif;
+  --body-text: "Lexend", serif;
+  --misc-text: "Josefin Sans", serif;
+  --block-text: "Bebas Neue", serif;
 
-:root {
-  --main-bg-color: brown;
+
 }
 
 .App {
@@ -104,23 +103,11 @@ h1 {
 }
 
 h2 {
-
+  color: #e12885;
+  font-family: var(--block-text);
 }
 
 /* ---- input styling ---- */
-
-
-.title {
-  text-align: center;
-  width: 30vw;
-  background-color: rgb(190, 164, 214);
-  padding: 2vw 1vw;
-  border-radius: 10px 10px 0 0;
-  font-size: 2rem;
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-
 
 input {
   border: 1px solid rgb(172, 171, 171);
@@ -129,3 +116,21 @@ input {
   outline: none;
   margin: 5px;
 }
+
+
+.title {
+  text-align: center;
+  width: 30vw;
+  padding: 2vw 1vw;
+  border-radius: 10px 10px 0 0;
+  font-size: 2rem;
+  font-family: var(--block-text)
+}
+
+label {
+  font-family: var(--block-text);
+  font-size: 1.2rem;
+  color: black;
+}
+
+

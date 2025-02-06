@@ -21,7 +21,7 @@ const SignUpPage: React.FC = () => {
 
     // basic validation for required fields
     if (!username || !password || !homeCountry) {
-      // user must fill outall fields to register
+      // user must fill out all fields to register
       setError("Please fill in all fields");
       return;
     }
@@ -61,7 +61,7 @@ const SignUpPage: React.FC = () => {
   return (
     <>
       <div className="sign-up-page">
-        <h2>Join Soundcrowd</h2>
+        <h2 className="title">Join SoundCrowd</h2>
       </div>
 
       <form onSubmit={handleSubmit} className="App">
@@ -112,7 +112,7 @@ const SignUpPage: React.FC = () => {
         <br></br>
         <hr></hr>
         <br></br>
-        <button type={"submit"}>Sign Up and Start Jamming!</button>
+        <button type={"submit"}>Join and Start Jamming!</button>
       </form>
     </>
   );

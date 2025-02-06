@@ -1,12 +1,18 @@
 import { useState, useEffect } from 'react';
 import { getData, deleteData } from './helpers/fetchHelpers';
+
+// components
 import ProjectItem from './components/ProjectItem';
 import ProfilePage from './components/ProfilePage';
 import SignUpPage from './components/SignUpPage';
 import LogInPage from './components/LogInPage';
 import Modal from './components/Modal';
-import './App.css';
+
+// images
 import logo from './assets/soundcloud_logo.png';
+
+// styles
+import './App.css';
 
 function App() {
   console.log('MODE:', import.meta.env.MODE);

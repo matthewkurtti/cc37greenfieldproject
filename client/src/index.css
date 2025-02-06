@@ -28,7 +28,7 @@ button {
   color: white;
   cursor: pointer;
   display: inline-block;
-  font-family: -apple-system,system-ui,"Segoe UI","Liberation Sans",sans-serif;
+  font-family: var(--body-text), -apple-system,system-ui, "Liberation Sans",sans-serif;
   font-size: 13px;
   font-weight: 400;
   line-height: 1.15385;
@@ -63,4 +63,9 @@ button:active {
 
 ::placeholder {
   color: lightgray
+}
+
+.divContainer {
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
 }
