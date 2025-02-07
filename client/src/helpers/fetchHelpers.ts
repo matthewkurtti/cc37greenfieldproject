@@ -1,3 +1,6 @@
+/* Helper function for fetching user data */ 
+
+
 export const getData = async (
   url: string,
   endpoint: string,
@@ -5,8 +8,9 @@ export const getData = async (
 ) => {
   try {
     let response;
-    if (id === null) {
-      response = await fetch(`${url}${endpoint}`, { credentials: 'include' });
+    // conditional for handling having or not having an ID provided
+    if (id === null) { 
+      response = await fetch(`${url}${endpoint}`, { credentials: 'include' }); // 'credentials' passes cookies along with other fetched data
     } else {
       response = await fetch(`${url}${endpoint}/${id}`);
     }

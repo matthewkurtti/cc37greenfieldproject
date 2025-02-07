@@ -1,10 +1,13 @@
 import './ProjectItem.css';
 import './Modal.css';
 
-type ModalProps = {
+type ModalProps = { 
+  // accepts a JSX component as a prop and displays the component content
   currentModal: JSX.Element | null;
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 };
+
+// handles displaying a modal popup when the user intacts with main page elements 
 
 const Modal = ({ currentModal, setCurrentModal }: ModalProps) => {
   return (

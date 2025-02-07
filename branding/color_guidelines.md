@@ -2,7 +2,6 @@
 # SoundCrowd Brand Guidelines
 
 
-
 ## Brand Overview
 SoundCrowd is a dynamic music collaboration platform that enables creators to share and request song stems, fostering a community of musical co-creation. Our brand identity reflects the collaborative, innovative, and harmonious nature of our platform.
 
