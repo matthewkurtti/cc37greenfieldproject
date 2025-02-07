@@ -13,7 +13,7 @@ const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
 
   // handles states
   const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>(''); 
+  const [password, setPassword] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -31,12 +31,16 @@ const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
       return;
     }
 
-    await postData(url, 'api/auth/login', {
+    const result = await postData(url, 'api/auth/login', {
       username: username,
       password: password,
     });
 
-    setCurrentModal(null);
+    if (result.message === 'Invalid credentials') {
+      setErrorMessage('Invalid username or password. Please try again');
+    } else {
+      setCurrentModal(null);
+    }
   };
 
   return (

@@ -53,12 +53,39 @@ app.get('/api/user', async (req, res) => {
   }
 });
 
+// "get" endpoint (get all project information)
+app.get('/api/project', async (req, res) => {
+  try {
+    const projects = await knex.select('*').from('projects').limit(100);
+    res.json(projects);
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // "get" endpoint (get user by id)
 app.get('/api/user/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const users = await knex.select('*').from('users').where('id', id).first();
-    res.json(users);
+    const user = await knex.select('*').from('users').where('id', id).first();
+    res.json(user);
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// "get" endpoint (get project by id)
+app.get('/api/project/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const project = await knex
+      .select('*')
+      .from('projects')
+      .where('id', id)
+      .first();
+    res.json(project);
   } catch (error) {
     console.error('Database connection error:', error);
     res.status(500).json({ error: error.message });
@@ -154,7 +181,7 @@ app.get('/api/auth/user', (req, res) => {
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-      res.json({ user });
+      res.json(user);
     })
     .catch((error) => {
       console.error('Database connection error.', error);

@@ -22,7 +22,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
   const url: string =
     import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
 
-    // handles states 
+  // handles states
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [homeCity, setHomeCity] = useState<string>('');
@@ -48,7 +48,6 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
     setCurrentModal(<LogInPage setCurrentModal={setCurrentModal} />);
     const result = await getData(url, 'api/user');
     setData(result);
-
   };
 
   return (
