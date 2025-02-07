@@ -1,15 +1,17 @@
-import ProjectPage from './ProjectPage';
-import './ProjectItem.css';
+import ProjectPage from './ProjectPage'
 
-type ProjectItemProps = {
+interface ProjectItemProps {
+  project: Project; // ensure project is of the custom type Project 
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
-};
+}
 
-const ProjectItem = ({ setCurrentModal }: ProjectItemProps) => {
+import { Project } from '../globalTypes'
+
+const ProjectItem = ({ project, setCurrentModal }: ProjectItemProps) => {
   return (
-    <div className="projectItem" onClick={() => setCurrentModal(<ProjectPage />)}>
-      <span className="projectTitle">TITLE</span><br /> 
-      <span className="projectDescription">Description</span>
+    <div onClick={() => setCurrentModal(<ProjectPage project={project} />)}>
+      <h3> {project.project_name} </h3>
+      <p> {project.description} </p>
     </div>
   );
 };

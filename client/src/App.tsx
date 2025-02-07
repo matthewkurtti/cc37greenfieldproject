@@ -1,42 +1,45 @@
-import { useState, useEffect } from 'react';
-import { getData, deleteData, postData } from './helpers/fetchHelpers';
+import { useState, useEffect } from "react";
+import { getData, deleteData, postData } from "./helpers/fetchHelpers";
 
 // types
-import { User } from './globalTypes';
+import { User, Project } from "./globalTypes";
 
 // components
-import ProjectItem from './components/ProjectItem';
-import ProfilePage from './components/ProfilePage';
-import SignUpPage from './components/SignUpPage';
-import LogInPage from './components/LogInPage';
-import Modal from './components/Modal';
+import ProjectItem from "./components/ProjectItem";
+import ProfilePage from "./components/ProfilePage";
+import CreateNewProjectPage from "./components/CreateNewProjectPage"
+import SignUpPage from "./components/SignUpPage";
+import LogInPage from "./components/LogInPage";
+import Modal from "./components/Modal";
 
 // images
-import logo from './assets/soundcloud_logo.png';
+import logo from "./assets/soundcloud_logo.png";
 
 // styles
-import './App.css';
+import "./App.css";
 
 function App() {
-  console.log('MODE:', import.meta.env.MODE);
+  console.log("MODE:", import.meta.env.MODE);
 
   const url: string =
-    import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/'; // sets database target URL based on current environment
+    import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/"; // sets database target URL based on current environment
 
-  console.log('URL:', url);
+  console.log("URL:", url);
 
   const [userData, setUserData] = useState<object | null>(null);
-  const [projectData, setProjectData] = useState<object | null>(null);
+
+  const [projectData, setProjectData] = useState<Project[] | null>(null); // ensures that projectData is either an array of project data or null
+
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const [currentModal, setCurrentModal] = useState<JSX.Element | null>(null);
 
   // check to see if the user has a valid session token on page load
   const checkIfLoggedIn = async () => {
-    const result = await getData(url, 'api/auth/user');
+    const result = await getData(url, "api/auth/user");
 
     if (
-      result.message === 'Unauthorized' ||
-      result.message === 'User not found'
+      result.message === "Unauthorized" ||
+      result.message === "User not found"
     ) {
       setLoggedInUser(null);
     } else {
@@ -46,19 +49,19 @@ function App() {
 
   // ---------- Testing Logs (START) ---------- */
   useEffect(() => {
-    console.log('USER DATA:', userData);
+    console.log("USER DATA:", userData);
   }, [userData]);
 
   useEffect(() => {
-    console.log('PROJECT PROJECT:', projectData);
+    console.log("PROJECT DATA:", projectData);
   }, [projectData]);
 
   useEffect(() => {
-    console.log('CURRENT MODAL:', currentModal);
+    console.log("CURRENT MODAL:", currentModal);
   }, [currentModal]);
 
   useEffect(() => {
-    console.log('LOGGED IN USER:', loggedInUser);
+    console.log("LOGGED IN USER:", loggedInUser);
   }, [loggedInUser]);
   // ----------- Testing Logs (END) ----------- */
 
@@ -68,10 +71,10 @@ function App() {
 
     // pulls all data from the database
     (async () => {
-      const userResult = await getData(url, 'api/user');
+      const userResult = await getData(url, "api/user");
       setUserData(userResult);
 
-      const projectResult = await getData(url, 'api/project');
+      const projectResult = await getData(url, "api/project");
       setProjectData(projectResult);
     })();
   }, []);
@@ -91,22 +94,34 @@ function App() {
         <img className="logo" src={logo} alt="SoundCrowd's Logo" />
         <nav>
           <ul>
+            {/* displays a Profile button if the user is logged in */}
             {loggedInUser ? (
+              <>
               <li>
-                <button
-                  type="button"
-                  onClick={() =>
-                    setCurrentModal(
-                      <ProfilePage
-                        loggedInUser={loggedInUser}
-                        setCurrentModal={setCurrentModal}
-                      />
-                    )
-                  }
-                >
-                  Profile
-                </button>
-              </li>
+                  <button 
+                  type="button" 
+                          onClick={() => setCurrentModal(<CreateNewProjectPage loggedInUser={loggedInUser} />)} >
+                            New Project
+                          </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setCurrentModal(
+                        <ProfilePage
+                          loggedInUser={loggedInUser}
+                          setCurrentModal={setCurrentModal}
+                        />
+                      )
+                    }
+                  >
+                    Profile
+                  </button>
+                </li>
+                {/* displays a New Project button if the user is logged in */}
+                
+              </>
             ) : (
               <>
                 <li>
@@ -146,12 +161,17 @@ function App() {
         <section className="news-feed">
           <h2>Recent Projects</h2>
           <ul>
-            <li>
-              <ProjectItem setCurrentModal={setCurrentModal} />
-            </li>
-            <li>
-              <ProjectItem setCurrentModal={setCurrentModal} />
-            </li>
+            {projectData &&
+              projectData.map((project) => (
+                <li key={project.id}>
+                  {" "}
+                  {/* calls and displays each project by project id */}
+                  <ProjectItem
+                    project={project}
+                    setCurrentModal={setCurrentModal}
+                  />
+                </li>
+              ))}
           </ul>
         </section>
       </main>
@@ -160,7 +180,7 @@ function App() {
       <footer>
         <button
           onClick={async () => {
-            const result = await getData(url, 'api/user');
+            const result = await getData(url, "api/user");
             setUserData(result);
           }}
         >
@@ -168,7 +188,7 @@ function App() {
         </button>
         <button
           onClick={async () => {
-            const result = await getData(url, 'api/user', 4);
+            const result = await getData(url, "api/user", 4);
             setUserData(result);
           }}
         >
@@ -176,8 +196,8 @@ function App() {
         </button>
         <button
           onClick={async () => {
-            await deleteData(url, 'api/user', 6);
-            const result = await getData(url, 'api/user');
+            await deleteData(url, "api/user", 6);
+            const result = await getData(url, "api/user");
             setUserData(result);
           }}
         >
@@ -185,13 +205,13 @@ function App() {
         </button>
         <button
           onClick={async () => {
-            await postData(url, 'api/auth/register', {
-              username: 'Joe',
-              password: 'joepass',
-              city: 'Hamamatsu',
-              country: 'Japan',
+            await postData(url, "api/auth/register", {
+              username: "Joe",
+              password: "joepass",
+              city: "Hamamatsu",
+              country: "Japan",
             });
-            const result = await getData(url, 'api/user');
+            const result = await getData(url, "api/user");
             setUserData(result);
           }}
         >
