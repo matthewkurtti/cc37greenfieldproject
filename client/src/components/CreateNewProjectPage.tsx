@@ -1,20 +1,26 @@
-import { useState, FormEvent } from "react";
-import { postData } from "../helpers/fetchHelpers";
+import { useState, FormEvent } from 'react';
+import { getData, postData } from '../helpers/fetchHelpers';
 
 // types
-import { User } from "../globalTypes";
+import { User, Project } from '../globalTypes';
 
 type CreateNewProjectPageProps = {
   loggedInUser: User | null;
+  setProjectData: React.Dispatch<React.SetStateAction<Project[] | null>>;
+  setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 };
 
-const CreateNewProjectPage = ({ loggedInUser }: CreateNewProjectPageProps) => {
+const CreateNewProjectPage = ({
+  loggedInUser,
+  setProjectData,
+  setCurrentModal,
+}: CreateNewProjectPageProps) => {
   const url: string =
-    import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/";
+    import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
 
   // handles states
-  const [projectName, setProjectName] = useState<string>("");
-  const [projectDescription, setProjectDescription] = useState<string>("");
+  const [projectName, setProjectName] = useState<string>('');
+  const [projectDescription, setProjectDescription] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -24,7 +30,7 @@ const CreateNewProjectPage = ({ loggedInUser }: CreateNewProjectPageProps) => {
 
     // basic validation for required fields
     if (!projectName) {
-      setErrorMessage("Please fill in all required fields");
+      setErrorMessage('Please fill in all required fields');
       return;
     }
 
@@ -38,6 +44,11 @@ const CreateNewProjectPage = ({ loggedInUser }: CreateNewProjectPageProps) => {
         },
         loggedInUser.id
       );
+
+      const projectResult = await getData(url, 'api/project');
+      setProjectData(projectResult);
+
+      setCurrentModal(null);
     }
   };
 
@@ -67,12 +78,12 @@ const CreateNewProjectPage = ({ loggedInUser }: CreateNewProjectPageProps) => {
           value={projectDescription}
           onChange={(e) => setProjectDescription(e.target.value)} // sets the value of 'project-description' to this field on change
           placeholder="Tell us about your project..."
-        />{" "}
+        />{' '}
         {/* TODO convert to a text field instead of text box */}
         <br></br>
         <hr></hr>
         <br></br>
-        <button type={"submit"}>Create Your New Jam!</button>
+        <button type={'submit'}>Create Your New Jam!</button>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
     </>
