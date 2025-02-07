@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const fileInput = document.getElementById('fileInput') as HTMLInputElement;
   const messageDiv = document.getElementById('message') as HTMLDivElement;
 
+  // listens for submit click 
   uploadForm.addEventListener('submit', async (event) => {
     event.preventDefault();
 
@@ -17,6 +18,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const formData = new FormData();
     formData.append('file', file);
 
+
+    // handles uploading with call to Google Drive API 
     try {
       const response = await fetch('/api/user/upload', {
         method: 'POST',
@@ -26,13 +29,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const data = await response.json();
 
-      if (response.ok) {
+      if (response.ok) { // if we recieve a response, log success
         messageDiv.textContent = 'File uploaded successfully';
         console.log('Uploaded file:', data.stem);
       } else {
         messageDiv.textContent = data.message;
       }
-    } catch (error) {
+    } catch (error) { // if there's an error, log the error 
       console.error('Error:', error);
       messageDiv.textContent = 'An error occurred';
     }

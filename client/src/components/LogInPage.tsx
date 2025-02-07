@@ -1,22 +1,19 @@
 import React, { useState, FormEvent } from 'react';
 import { postData } from '../helpers/fetchHelpers';
 
-// interface LoginResponse {
-//   message: string;
-//   token?: string;
-// }
-
+// typescript for the login page props
 type LogInPageProps = {
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 };
 
 const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
+  // changes database target URL depending on current environment
   const url: string =
     import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
 
-  // states
+  // handles states
   const [username, setUsername] = useState<string>('');
-  const [password, setPassword] = useState<string>(''); // Fixed typo here
+  const [password, setPassword] = useState<string>(''); 
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -40,33 +37,6 @@ const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
     });
 
     setCurrentModal(null);
-
-    // try {
-    //   const response = await fetch(`${url}/api/auth/login`, {
-    //     method: 'POST',
-    //     headers: {
-    //       'Content-Type': 'application/json',
-    //     },
-    //     body: JSON.stringify({ username, password }),
-    //     credentials: 'include',
-    //   });
-
-    //   if (!response.ok) {
-    //     const errorData = await response.json();
-    //     throw new Error(errorData.message || 'Login failed, please try again.');
-    //   }
-
-    //   // handles successful login
-    //   const data: LoginResponse = await response.json();
-    //   console.log('User logged in: ', data);
-
-    //   // storage for JWT token or handle further user actions
-    //   if (data.token) {
-    //     localStorage.setItem('token', data.token); // stores JWT token
-    //   }
-    // } catch (error: any) {
-    //   setError(error.message || 'An error occurred during login.');
-    // }
   };
 
   return (
@@ -87,7 +57,7 @@ const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
           <label htmlFor="password">Password</label>
           <input
             type="password"
-            placeholder="rockstar@soundcrowd.com"
+            placeholder="Your Secret Rock Mantra..."
             value={password}
             onChange={(e) => setPassword(e.target.value)} // handles updating / changing password
           />
