@@ -1,13 +1,32 @@
-export const getData = async (url: string, endpoint: string) => {
-  const response = await fetch(`${url}${endpoint}`);
-  const result = await response.json();
-  return result;
+export const getData = async (
+  url: string,
+  endpoint: string,
+  id: number | null = null
+) => {
+  try {
+    let response;
+    if (id === null) {
+      response = await fetch(`${url}${endpoint}`, { credentials: 'include' });
+    } else {
+      response = await fetch(`${url}${endpoint}/${id}`);
+    }
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error getting data ', error);
+  }
 };
 
-export const deleteData = async (id: number, url: string, endpoint: string) => {
-  const response = await fetch(`${url}${endpoint}/${id}`, { method: 'DELETE' });
-  const result = await response.json();
-  return result;
+export const deleteData = async (url: string, endpoint: string, id: number) => {
+  try {
+    const response = await fetch(`${url}${endpoint}/${id}`, {
+      method: 'DELETE',
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error deleting data ', error);
+  }
 };
 
 export const postData = async (
@@ -16,11 +35,16 @@ export const postData = async (
   objToPost: object,
   contentType: string = 'application/json'
 ) => {
-  const response = await fetch(`${url}${endpoint}`, {
-    method: 'POST',
-    headers: { 'Content-Type': contentType },
-    body: JSON.stringify(objToPost),
-  });
-  const result = await response.json();
-  return result;
+  try {
+    const response = await fetch(`${url}${endpoint}`, {
+      method: 'POST',
+      headers: { 'Content-Type': contentType },
+      body: JSON.stringify(objToPost),
+      credentials: 'include',
+    });
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Error posting data ', error);
+  }
 };

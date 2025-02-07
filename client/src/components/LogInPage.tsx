@@ -1,95 +1,102 @@
-import React, { useState, FormEvent } from 'react'
+import React, { useState, FormEvent } from 'react';
+import { postData } from '../helpers/fetchHelpers';
 
-interface LoginResponse {
-  message: string;
-  token?: string;
-}
+// interface LoginResponse {
+//   message: string;
+//   token?: string;
+// }
 
-const LogInPage: React.FC = () => {
+type LogInPageProps = {
+  setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
+};
 
+const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
   const url: string =
-    import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/";
+    import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
 
   // states
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>(''); // Fixed typo here
-  const [error, setError] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  // might be replaced by global / foreign function
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // basic validation
-    if (!username) {
-      setError('Username is required.');
+    // basic validation for required fields
+    if (!username || !password) {
+      if (!username && !password) {
+        setErrorMessage('Username and password fields are required');
+      } else if (!username) {
+        setErrorMessage('Username field is required');
+      } else {
+        setErrorMessage('Password field is required');
+      }
       return;
     }
 
-    if (!password) {
-      setError('Password is required.');
-      return;
-    }
+    await postData(url, 'api/auth/login', {
+      username: username,
+      password: password,
+    });
 
-    // main submission logic
-    try {
-      const response = await fetch(`${url}/api/auth/login`, { 
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ username, password }), 
-        credentials: 'include'
-      });
+    setCurrentModal(null);
 
-      if (!response.ok) {
-        const errorData = await response.json(); 
-        throw new Error(errorData.message || 'Login failed, please try again.');
-      }
+    // try {
+    //   const response = await fetch(`${url}/api/auth/login`, {
+    //     method: 'POST',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({ username, password }),
+    //     credentials: 'include',
+    //   });
 
-      // handles successful login
-      const data: LoginResponse = await response.json();
-      console.log('User logged in: ', data);
+    //   if (!response.ok) {
+    //     const errorData = await response.json();
+    //     throw new Error(errorData.message || 'Login failed, please try again.');
+    //   }
 
-      // storage for JWT token or handle further user actions
-      if (data.token) {
-        localStorage.setItem('token', data.token); // stores JWT token
-      }
-    } catch (error: any) {
-      setError(error.message || 'An error occurred during login.'); 
-    }
+    //   // handles successful login
+    //   const data: LoginResponse = await response.json();
+    //   console.log('User logged in: ', data);
+
+    //   // storage for JWT token or handle further user actions
+    //   if (data.token) {
+    //     localStorage.setItem('token', data.token); // stores JWT token
+    //   }
+    // } catch (error: any) {
+    //   setError(error.message || 'An error occurred during login.');
+    // }
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div className="log-in-page">
-        <h2 className="title">LOGIN</h2>
+    <div className="log-in-page">
+      <h2 className="title">LOGIN</h2>
+      <div className="App">
+        <form className="login-form" onSubmit={handleSubmit}>
+          <label htmlFor="username" className="inputLabel">
+            Username
+          </label>
+          <input
+            type="text"
+            placeholder="Coolguy Beatmaker"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)} // handles updating / changing username
+          />
 
-        <div className="App">
-          <form className="login-form">
+          <label htmlFor="password">Password</label>
+          <input
+            type="password"
+            placeholder="rockstar@soundcrowd.com"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)} // handles updating / changing password
+          />
 
-            <label htmlFor="username" className="inputLabel">Username</label>
-            <input 
-              type="text" 
-              placeholder="Coolguy Beatmaker"
-              value={username} 
-              onChange={(e) => setUsername(e.target.value)} // handles updating / changing username
-            />
-
-            <label htmlFor="password">Password</label>
-            <input 
-              type="password" 
-              placeholder="rockstar@soundcrowd.com"
-              value={password} 
-              onChange={(e) => setPassword(e.target.value)} // handles updating / changing password
-            />
-
-            <button type="submit">Login</button>
-          </form>
-        </div>
-
-        {error && <p className="error-message">{error}</p>} {/* display error message if exists */}
+          <button type="submit">Login</button>
+        </form>
       </div>
-    </form>
+      {errorMessage && <p className="error-message">{errorMessage}</p>}
+    </div>
   );
 };
 

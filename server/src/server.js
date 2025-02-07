@@ -14,7 +14,12 @@ const app = express();
 const upload = multer({ dest: 'uploads/' });
 
 if (!process.env.NODE_ENV) {
-  app.use(cors());
+  app.use(
+    cors({
+      origin: 'http://localhost:5173',
+      credentials: true,
+    })
+  );
 } else {
   app.use('/', express.static(path.join(__dirname, '../../client/dist')));
 }
@@ -48,7 +53,19 @@ app.get('/api/user', async (req, res) => {
   }
 });
 
-// "post" endpoint (delete user by id)
+// "get" endpoint (get user by id)
+app.get('/api/user/:id', async (req, res) => {
+  try {
+    const id = req.params.id;
+    const users = await knex.select('*').from('users').where('id', id).first();
+    res.json(users);
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// "delete" endpoint (delete user by id)
 app.delete('/api/user/:id', async (req, res) => {
   try {
     const id = req.params.id;
@@ -71,7 +88,6 @@ app.put('/test/', async (req, res) => {
 });
 
 // ---------- Authentication (START) ---------- */
-
 // POST /api/auth/register
 // it (should allow a new user to register)
 app.post('/api/auth/register', async (req, res) => {
@@ -92,8 +108,8 @@ app.post('/api/auth/register', async (req, res) => {
       .status(201)
       .json({ message: 'User registered successfully', user: newUser });
   } catch (error) {
-    console.error('Database connection errror.', error);
-    res.status(500).json({ errror: error.message });
+    console.error('Database connection error.', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -127,7 +143,7 @@ app.post('/api/auth/login', async (req, res) => {
 
 // Checks if a user is logged in
 // it (should fetch logged in users profile from database using the userId stored in the session)
-app.get('/api/user/profile', (req, res) => {
+app.get('/api/auth/user', (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ message: 'Unauthorized' });
   }
