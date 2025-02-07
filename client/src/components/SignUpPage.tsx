@@ -11,18 +11,18 @@ import './SignUpPage.css';
 // }
 
 type SignUpPageProps = {
-  setData: React.Dispatch<React.SetStateAction<object | null>>;
+  setUserData: React.Dispatch<React.SetStateAction<object | null>>;
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 };
 
 const SignUpPage: React.FC<SignUpPageProps> = ({
-  setData,
+  setUserData,
   setCurrentModal,
 }) => {
   const url: string =
     import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
 
-    // handles states 
+  // handles states
   const [username, setUsername] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const [homeCity, setHomeCity] = useState<string>('');
@@ -47,8 +47,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
 
     setCurrentModal(<LogInPage setCurrentModal={setCurrentModal} />);
     const result = await getData(url, 'api/user');
-    setData(result);
-
+    setUserData(result);
   };
 
   return (
