@@ -1,4 +1,4 @@
-import { getData, deleteData, postData } from '../helpers/fetchHelpers';
+import { getData } from '../helpers/fetchHelpers';
 import { User } from '../globalTypes';
 import './ProfilePage.css';
 
