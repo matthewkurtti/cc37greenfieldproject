@@ -25,7 +25,8 @@ function App() {
 
   console.log('URL:', url);
 
-  const [data, setData] = useState<object | null>(null);
+  const [userData, setUserData] = useState<object | null>(null);
+  const [projectData, setProjectData] = useState<object | null>(null);
   const [loggedInUser, setLoggedInUser] = useState<User | null>(null);
   const [currentModal, setCurrentModal] = useState<JSX.Element | null>(null);
 
@@ -45,8 +46,12 @@ function App() {
 
   // ---------- Testing Logs (START) ---------- */
   useEffect(() => {
-    console.log('DATA:', data);
-  }, [data]);
+    console.log('USER DATA:', userData);
+  }, [userData]);
+
+  useEffect(() => {
+    console.log('PROJECT PROJECT:', projectData);
+  }, [projectData]);
 
   useEffect(() => {
     console.log('CURRENT MODAL:', currentModal);
@@ -63,8 +68,11 @@ function App() {
 
     // pulls all data from the database
     (async () => {
-      const result = await getData(url, 'api/user');
-      setData(result);
+      const userResult = await getData(url, 'api/user');
+      setUserData(userResult);
+
+      const projectResult = await getData(url, 'api/project');
+      setProjectData(projectResult);
     })();
   }, []);
 
@@ -107,7 +115,7 @@ function App() {
                     onClick={() =>
                       setCurrentModal(
                         <SignUpPage
-                          setData={setData}
+                          setUserData={setUserData}
                           setCurrentModal={setCurrentModal}
                         />
                       )
@@ -153,7 +161,7 @@ function App() {
         <button
           onClick={async () => {
             const result = await getData(url, 'api/user');
-            setData(result);
+            setUserData(result);
           }}
         >
           Test Get
@@ -161,7 +169,7 @@ function App() {
         <button
           onClick={async () => {
             const result = await getData(url, 'api/user', 4);
-            setData(result);
+            setUserData(result);
           }}
         >
           Test Get By ID
@@ -170,7 +178,7 @@ function App() {
           onClick={async () => {
             await deleteData(url, 'api/user', 6);
             const result = await getData(url, 'api/user');
-            setData(result);
+            setUserData(result);
           }}
         >
           Test Delete
@@ -184,7 +192,7 @@ function App() {
               country: 'Japan',
             });
             const result = await getData(url, 'api/user');
-            setData(result);
+            setUserData(result);
           }}
         >
           Test Post
