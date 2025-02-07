@@ -6,7 +6,7 @@ const cors = require('cors');
 const path = require('path');
 const knex = require('./knex');
 const multer = require('multer');
-const { uploadFile, generatePublicUrl } = require('./app');
+const { uploadFile, generatePublicUrl } = require('./driveApiHandler');
 
 const app = express();
 
@@ -173,8 +173,28 @@ app.get('/api/auth/logout', (req, res) => {
   });
 });
 // ----------- Authentication (END) ----------- */
+// GET /api/project/members
+app.get('/api/project/members', async (req, res) => {
+  try {
+    const members = await knex('members').select('*');
+    res.json(members);
+  } catch (error) {
+    console.error('Error fetching members:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 
-// file handle api
+// GET /api/project/stems
+app.get('/api/project/stems', async (req, res) => {
+  try {
+    const stems = await knex('stems').select('*');
+    res.json(stems);
+  } catch (error) {
+    console.error('Error fetching stems:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+// POST /api/user/upload
 app.post('/api/user/upload', upload.single('file'), async (req, res) => {
   try {
     const { file } = req;
@@ -204,7 +224,7 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
+// -------------
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {
