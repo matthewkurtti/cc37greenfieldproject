@@ -4,6 +4,14 @@
   --body-text: 'Lexend', serif;
   --misc-text: 'Josefin Sans', serif;
   --block-text: 'Bebas Neue', serif;
+
+  /* color book */
+  --primary-logo-color: #86cecb;
+  --secondary-logo-color: #137a7f;
+  --primary-accent-color: #e12885;
+  --primary-monochrome-color: #EEEEEE;
+  --secondary-monochrome-color: #373b3e;
+  --tertiary-monochrome-color: #bec8d1;
 }
 
 .App {
@@ -14,7 +22,7 @@
   width: 30vw;
   padding: 2vw 1vw;
   border-radius: 0 0 10px 10px;
-  font-family: --block-text;
+  font-family: var(--block-text), serif;
   font-weight: 500;
 }
 
@@ -71,11 +79,21 @@ main {
   width: 100%;
 }
 
+.user-not-logged-in-hero {
+  display: flex;
+  flex-direction: column;  /* Aligns items vertically */
+  justify-content: center; /* Vertically centers the items */
+  align-items: center;     /* Horizontally centers the items */
+  margin-above: 1rem;
+  margin-bottom: 2rem;
+}
+
 .news-feed {
-  width: 1200px;
+  width: 80%;
   min-width: 800px;
   padding: 1rem;
   background-color: whitesmoke;
+  border-radius: 10px;
 }
 
 .news-feed h2 {
@@ -101,7 +119,16 @@ h1 {
 
 h2 {
   color: #e12885;
-  font-family: var(--block-text);
+  font-family: var(--block-text), serif;
+}
+
+.frontpage-hero-title {
+  font-size: 3.4rem;
+}
+
+.frontpage-hero-subtitle {
+  font-size: 2.5rem;
+  color: var(--secondary-logo-color)
 }
 
 /* ---- input styling ---- */
@@ -120,11 +147,11 @@ input {
   padding: 2vw 1vw;
   border-radius: 10px 10px 0 0;
   font-size: 2rem;
-  font-family: var(--block-text);
+  font-family: var(--block-text), serif;
 }
 
 label {
-  font-family: var(--block-text);
+  font-family: var(--block-text), serif;
   font-size: 1.2rem;
   color: black;
 }

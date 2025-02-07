@@ -165,6 +165,11 @@ function App() {
         </nav>
       </header>
 
+      <div className="user-not-logged-in-hero">
+        <h2 className={"frontpage-hero-title"}>Welcome to SoundCrowd</h2>
+        <h3 className="frontpage-hero-subtitle">We can't wait to hear from you.</h3>
+      </div>
+
       <main>
         <section className="news-feed">
           <h2>Recent Projects</h2>
