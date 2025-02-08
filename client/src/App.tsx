@@ -165,12 +165,15 @@ function App() {
         </nav>
       </header>
 
-      <div className="user-not-logged-in-hero">
-        <h2 className={"frontpage-hero-title"}>Welcome to SoundCrowd</h2>
-        <h3 className="frontpage-hero-subtitle">We can't wait to hear from you.</h3>
-      </div>
-
       <main>
+        {!loggedInUser && (
+          <section className="user-not-logged-in-hero">
+            <h2 className="frontpage-hero-title">Welcome to SoundCrowd</h2>
+            <h3 className="frontpage-hero-subtitle">
+              We can't wait to hear from you.
+            </h3>
+          </section>
+        )}
         <section className="news-feed">
           <h2>Recent Projects</h2>
           <ul>
@@ -190,7 +193,7 @@ function App() {
       </main>
 
       {/* test buttons for functionality testing */}
-      <footer>
+      {/* <footer>
         <button
           onClick={async () => {
             const result = await getData(url, 'api/user');
@@ -230,7 +233,7 @@ function App() {
         >
           Test Post
         </button>
-      </footer>
+      </footer> */}
     </>
   );
 }

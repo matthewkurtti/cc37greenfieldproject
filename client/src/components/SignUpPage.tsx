@@ -51,12 +51,10 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
   };
 
   return (
-    <>
-      <div className="sign-up-page">
-        <h2 className="title">Join SoundCrowd</h2>
-      </div>
+    <div className="sign-up-page">
+      <h2>Join SoundCrowd</h2>
 
-      <form onSubmit={handleSubmit} className="App">
+      <form onSubmit={handleSubmit}>
         <label htmlFor="username" className="inputLabel">
           Username
         </label>
@@ -101,13 +99,10 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
           placeholder="The Country You Tour..."
         />
 
-        <br></br>
-        <hr></hr>
-        <br></br>
         <button type={'submit'}>Join and Start Jamming!</button>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
       </form>
-    </>
+    </div>
   );
 };
 

@@ -1,18 +1,19 @@
-.news-feed div {
+.project-item {
   padding: 1rem;
-  background-color: #8ececc;
+  border: 3px solid #0000;
+  border-radius: 20px 2px 20px 2px;
+  background: conic-gradient(#e6eaee /* the background color */ 0 0) padding-box,
+    linear-gradient(var(--primary-accent-color), var(--primary-logo-color))
+      border-box;
+  box-shadow: rgba(0, 0, 0, 0.15) 0px 1px 4px;
   cursor: pointer;
+  transition: box-shadow 0.3s ease-in-out;
 }
 
-.projectItem {
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
-}
-
-.projectTitle {
-  font-family: 'Lexend', sans-serif;
-}
-
-.projectDescription {
+.project-item p {
   font-family: 'Josefin Sans', sans-serif;
+}
+
+.project-item:hover {
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 4px 10px;
 }

@@ -21,7 +21,7 @@ const Modal = ({ currentModal, setCurrentModal }: ModalProps) => {
             setCurrentModal(null);
           }}
         >
-          <img className="modalCloseButton" src={cross} />
+          <img className="close-btn-img" src={cross} />
         </button>
       </div>
     </div>
