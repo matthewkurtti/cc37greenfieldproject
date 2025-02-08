@@ -45,7 +45,7 @@ Our logo combines two semi-circular elements that form an abstract 'S', represen
   - Use for headings and body copy
   - Creates strong contrast and readability
 
-- Light Grey: #dbe1e6 ![#dbe1e6](data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="%23bec8d1"/></svg>)
+- Light Grey: #bec8d1 ![#bec8d1](data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="%23bec8d1"/></svg>)
   - Secondary text color
   - Use for subtle elements and backgrounds
   - Creates hierarchy and depth
