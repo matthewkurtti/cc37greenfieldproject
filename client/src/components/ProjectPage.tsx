@@ -104,7 +104,34 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
                 <div className="tags">
                   <span className="">{member.role}</span>
                 </div>
+          {members.map((member) => (
+            <li key={member.id}>
+              <div className="member">
+                <span className="member-name">Name: {member.name}</span>
+                <div className="tags">
+                  <span className="">{member.role}</span>
+                </div>
               </div>
+            </li>
+          ))}
+        </ul>
+      </div>
+      <div className="stems">
+        <h3 className="stems-title">Stems</h3>
+        <ul>
+          {stems.map((stem) => (
+            <li key={stem.id}>
+              <div className="stem">
+                <span className="stem-name">Name: {stem.stem_name}</span>
+                <a href={stem.url} target="_blank" rel="noopener noreferrer">
+                  Listen
+                </a>
+                <a href={stem.url} download={stem.stem_name}>
+                  <button>Download</button>
+                </a>
+              </div>
+            </li>
+          ))}
             </li>
           ))}
         </ul>
@@ -127,6 +154,11 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
           ))}
         </ul>
       </div>
+      <form id="uploadForm" onSubmit={handleFileUpload}>
+        <input type="file" id="fileInput" name="file" required />
+        <button type="submit">Upload</button>
+      </form>
+      <div id="message">{message}</div>
       <form id="uploadForm" onSubmit={handleFileUpload}>
         <input type="file" id="fileInput" name="file" required />
         <button type="submit">Upload</button>
