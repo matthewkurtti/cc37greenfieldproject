@@ -36,7 +36,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    // What does this do, might cause deployment issues
+      // What does this do, might cause deployment issues
     cookie: { secure: false },
   })
 );
@@ -126,6 +126,17 @@ app.post('/api/project/create/:id', async (req, res) => {
   }
 });
 
+// GET /api/project/:projectId/stems
+app.get('/api/project/:projectId/stems', async (req, res) => {
+  const { projectId } = req.params;
+  try {
+    const stems = await knex('stems').where({ project_id: projectId }).select('*');
+    res.json(stems);
+  } catch (error) {
+    console.error('Error fetching stems:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
 // ------------ TESTING ---------- */
 
 // "put" testing endpoint (update)
@@ -225,10 +236,12 @@ app.get('/api/auth/logout', (req, res) => {
 });
 // ----------- Authentication (END) ----------- */
 
-// file handle api
+// POST /api/user/upload
 app.post('/api/user/upload', upload.single('file'), async (req, res) => {
   try {
     const { file } = req;
+    const { project_id } = req.body;
+
     if (!file) {
       return res.status(400).json({ message: 'No file uploaded' });
     }
@@ -244,12 +257,12 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
       .insert({
         stem_name: file.originalname,
         url: publicUrl.webViewLink,
+        project_id: parseInt(project_id, 10),
       })
-      .returning(['id', 'stem_name', 'url']);
+      .returning(['id', 'stem_name', 'url', 'project_id']);
 
-    res
-      .status(201)
-      .json({ message: 'File uploaded successfully', stem: newStem });
+    console.log('New stem:', newStem); // Add logging
+    res.status(201).json({ message: 'File uploaded successfully', stem: newStem });
   } catch (error) {
     console.error('File upload error:', error);
     res.status(500).json({ error: error.message });
