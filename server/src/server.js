@@ -78,6 +78,59 @@ app.delete('/api/user/:id', async (req, res) => {
   }
 });
 
+// ---------- STEM ENDPOINTS ---------- */
+
+// Get all stems currently on the site
+app.get('/api/stem', async (req, res) => {
+  try {
+    const stems = await knex.select('stems').from('stems').limit(100);
+    res.json(stems);
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET a specific stem by ID
+app.get('/api/stem/:id', async (req, res) => {
+  const { id } = req.params; // Get the id from the URL parameter
+
+  try {
+    const stem = await knex('stems')
+        .select('stems')
+        .where('id', id) // Filter by the project id
+        .first(); // Use first() to get only one result since id should be unique
+
+    if (!stem) {
+      return res.status(404).json({ error: 'Project not found' });
+    }
+
+    res.json(stem); // Send back the stem data for that project
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// GET / JOIN joines the current user to any stems they currently have active and returns the list
+// TODO this may need a revision since we now have a join table that does this on its own
+
+app.get('/api/user/:userId/stems', async (req, res) => {
+  const { userId } = req.params; // handles getting userId from the parameter passed to GET request
+
+  try {
+    const userStems = await knex('user_stems')
+        .join('stems', 'user_stems.stem_id', 'stems.id') // temporarily join the user_stems and stems tables as a comparator
+        .where('user_stems.user_id', userId) // filters by user_id for current user
+        .select('stems.*'); // select all mathing columns from "stems"
+
+    res.json(userStems);
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // ----------- Project Endpoints ------------ */
 
 // "get" endpoint (get all project information)
