@@ -36,7 +36,7 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-      // What does this do, might cause deployment issues
+    // What does this do, might cause deployment issues
     cookie: { secure: false },
   })
 );
@@ -97,9 +97,9 @@ app.get('/api/stem/:id', async (req, res) => {
 
   try {
     const stem = await knex('stems')
-        .select('stems')
-        .where('id', id) // Filter by the project id
-        .first(); // Use first() to get only one result since id should be unique
+      .select('stems')
+      .where('id', id) // Filter by the project id
+      .first(); // Use first() to get only one result since id should be unique
 
     if (!stem) {
       return res.status(404).json({ error: 'Project not found' });
@@ -120,9 +120,9 @@ app.get('/api/user/:userId/stems', async (req, res) => {
 
   try {
     const userStems = await knex('user_stems')
-        .join('stems', 'user_stems.stem_id', 'stems.id') // temporarily join the user_stems and stems tables as a comparator
-        .where('user_stems.user_id', userId) // filters by user_id for current user
-        .select('stems.*'); // select all mathing columns from "stems"
+      .join('stems', 'user_stems.stem_id', 'stems.id') // temporarily join the user_stems and stems tables as a comparator
+      .where('user_stems.user_id', userId) // filters by user_id for current user
+      .select('stems.*'); // select all mathing columns from "stems"
 
     res.json(userStems);
   } catch (error) {
@@ -183,7 +183,9 @@ app.post('/api/project/create/:id', async (req, res) => {
 app.get('/api/project/:projectId/stems', async (req, res) => {
   const { projectId } = req.params;
   try {
-    const stems = await knex('stems').where({ project_id: projectId }).select('*');
+    const stems = await knex('stems')
+      .where({ project_id: projectId })
+      .select('*');
     res.json(stems);
   } catch (error) {
     console.error('Error fetching stems:', error);
@@ -315,13 +317,16 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
       .returning(['id', 'stem_name', 'url', 'project_id']);
 
     console.log('New stem:', newStem); // Add logging
-    res.status(201).json({ message: 'File uploaded successfully', stem: newStem });
+    res
+      .status(201)
+      .json({ message: 'File uploaded successfully', stem: newStem });
   } catch (error) {
     console.error('File upload error:', error);
     res.status(500).json({ error: error.message });
   }
 });
 // -------------
+
 const port = process.env.PORT || 8080;
 
 app.listen(port, () => {

@@ -20,6 +20,10 @@ interface Stem {
 }
 
 const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
+  // changes database target URL depending on current environment
+  const url: string =
+    import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/';
+
   const [members, setMembers] = useState<Member[]>([]);
   const [stems, setStems] = useState<Stem[]>([]);
   const [message, setMessage] = useState<string>('');
@@ -49,6 +53,8 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     const file = fileInput.files?.[0];
 
+    console.log(file);
+
     if (!file) {
       setMessage('No file selected');
       return;
@@ -58,8 +64,10 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
     formData.append('file', file);
     formData.append('project_id', project.id.toString());
 
+    console.log(formData);
+
     try {
-      const response = await fetch('/api/user/upload', {
+      const response = await fetch(`${url}api/user/upload`, {
         method: 'POST',
         body: formData,
         credentials: 'include',
@@ -110,7 +118,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
               <div className="stem">
                 <span className="stem-name">Name: {stem.stem_name}</span>
                 <a href={stem.url} target="_blank" rel="noopener noreferrer">
-                  Listen
+                  <button>Listen</button>
                 </a>
                 <a href={stem.url} download={stem.stem_name}>
                   <button>Download</button>
