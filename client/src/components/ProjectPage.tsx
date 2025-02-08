@@ -50,3 +50,6 @@ const ProjectPage = ( {project}: ProjectPageProps ) => {
 };
 
 export default ProjectPage;
+
+// TODO append users who are on the project to profile page
+// TODO append stems on the project to the profile page
