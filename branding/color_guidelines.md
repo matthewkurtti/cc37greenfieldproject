@@ -6,10 +6,10 @@
 SoundCrowd is a dynamic music collaboration platform that enables creators to share and request song stems, fostering a community of musical co-creation. Our brand identity reflects the collaborative, innovative, and harmonious nature of our platform.
 
 ## Logo
-Our logo combines two semi-circular elements that form an abstract 'S', representing the duality of creation and collaboration. The wordmark "SoundCrowd" appears in a clean, modern typeface that emphasizes clarity and professionalism.
+Our logo combines two semi-circular elements that form an abstract 'S', representing the duality of "creation" and "collaboration". The wordmark "SoundCrowd" appears in a clean, modern typeface that emphasizes clarity and professionalism.
 
 ### Logo Usage
-- Maintain clear space around the logo equal to the height of the 'S' in SoundCrowd
+- Maintain clear space around the logotype equal to the height of the 'S' in SoundCrowd
 - Minimum size: 24px height for digital applications
 - Do not stretch, distort, or alter the logo's proportions
 - Do not change the logo's colors outside of approved variations
@@ -35,7 +35,7 @@ Our logo combines two semi-circular elements that form an abstract 'S', represen
   - Ideal for interactive elements and important notifications
 
 ### Monochrome Colors
-- Pure White: #FFFFFF ![#FFFFFF](data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="%23FFFFFF" stroke="%23bec8d1"/></svg>)
+- Pure White: #EEEEEE ![#FFFFFF](data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"><rect width="20" height="20" fill="%23FFFFFF" stroke="%23bec8d1"/></svg>)
   - Primary background color
   - Use for text on dark backgrounds
   - Creates clean, open spaces
