@@ -1,13 +1,14 @@
 import './ProjectItem.css';
 import './Modal.css';
+import cross from '../assets/circle-close-multiple-svgrepo-com.svg';
 
-type ModalProps = { 
+type ModalProps = {
   // accepts a JSX component as a prop and displays the component content
   currentModal: JSX.Element | null;
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 };
 
-// handles displaying a modal popup when the user intacts with main page elements 
+// handles displaying a modal popup when the user intacts with main page elements
 
 const Modal = ({ currentModal, setCurrentModal }: ModalProps) => {
   return (
@@ -20,7 +21,7 @@ const Modal = ({ currentModal, setCurrentModal }: ModalProps) => {
             setCurrentModal(null);
           }}
         >
-          <img className="modalCloseButton" src='../images/circle-close-multiple-svgrepo-com.svg' />
+          <img className="modalCloseButton" src={cross} />
         </button>
       </div>
     </div>
