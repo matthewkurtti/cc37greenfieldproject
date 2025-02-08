@@ -1,40 +1,62 @@
+:root {
+  /* font book */
+  --title-text: 'Krona One', sans-serif;
+  --body-text: 'Lexend', sans-serif;
+  --misc-text: 'Josefin Sans', sans-serif;
+  --block-text: 'Bebas Neue', sans-serif;
+
+  /* color book */
+  --primary-logo-color: #86cecb;
+  --secondary-logo-color: #137a7f;
+  --primary-accent-color: #e12885;
+  --primary-monochrome-color: #fff;
+  --secondary-monochrome-color: #373b3e;
+  --tertiary-monochrome-color: #dbe1e6;
+}
+
+/* ---- super simple reset ---- */
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: var(--body-text);
 }
 
 body {
-  background-color: #a5a8ac;
-}
-
-button {
-  cursor: pointer;
+  background-color: var(--tertiary-monochrome-color);
 }
 
 ul {
   list-style: none;
 }
 
+/* ---- headers ---- */
+
+h2 {
+  color: #e12885;
+  font-family: var(--block-text);
+  font-size: 2rem;
+}
+
 /* ---- button styling ---- */
 
 button {
-  background-color: #137a7f;
+  background-color: var(--secondary-logo-color);
   border-radius: 12px;
   border: 0.5px solid #7aa7c7;
-  box-shadow: rgba(255, 255, 255, .7) 0 1px 0 0 inset;
+  box-shadow: rgba(255, 255, 255, 0.7) 0 1px 0 0 inset;
   box-sizing: border-box;
   color: white;
   cursor: pointer;
   display: inline-block;
-  font-family: var(--body-text), -apple-system,system-ui, "Liberation Sans",sans-serif;
+  font-family: var(--body-text);
   font-size: 13px;
   font-weight: 400;
   line-height: 1.15385;
   margin: 0;
   outline: none;
-  padding: 8px .8em;
+  padding: 8px 0.8em;
   position: relative;
   text-align: center;
   text-decoration: none;
@@ -47,12 +69,12 @@ button {
 
 button:hover,
 button:focus {
-  background-color: #86cecb;
-  color: #e12885;
+  background-color: var(--primary-logo-color);
+  color: var(--primary-accent-color);
 }
 
 button:focus {
-  box-shadow: 0 0 0 4px rgba(0, 149, 255, .15);
+  box-shadow: 0 0 0 4px rgba(0, 149, 255, 0.15);
 }
 
 button:active {
@@ -61,11 +83,22 @@ button:active {
   color: #2c5777;
 }
 
-::placeholder {
-  color: lightgray
+/* ---- input styling ---- */
+
+label {
+  font-family: var(--block-text), serif;
+  font-size: 1.2rem;
+  color: black;
 }
 
-.divContainer {
-  border-top-left-radius: 20px;
-  border-bottom-right-radius: 20px;
+input {
+  border: 1px solid rgb(172, 171, 171);
+  border-radius: 10px;
+  padding: 1vw 1vw;
+  outline: none;
+  margin: 5px;
+}
+
+::placeholder {
+  color: #d3d3d3;
 }

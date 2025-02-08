@@ -58,7 +58,7 @@ const CreateNewProjectPage = ({
         <h2 className="title">Create a New Project</h2>
       </div>
 
-      <form onSubmit={handleSubmit} className="App">
+      <form onSubmit={handleSubmit}>
         <label htmlFor="project-name" className="inputLabel">
           Project Name:
         </label>

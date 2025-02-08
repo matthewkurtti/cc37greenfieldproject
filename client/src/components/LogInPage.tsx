@@ -1,6 +1,8 @@
 import React, { useState, FormEvent } from 'react';
 import { postData } from '../helpers/fetchHelpers';
 
+import './LogInPage.css';
+
 // typescript for the login page props
 type LogInPageProps = {
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
@@ -45,31 +47,30 @@ const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
 
   return (
     <div className="log-in-page">
-      <h2 className="title">LOGIN</h2>
-      <div className="App">
-        <form className="login-form" onSubmit={handleSubmit}>
-          <label htmlFor="username" className="inputLabel">
-            Username
-          </label>
-          <input
-            type="text"
-            placeholder="Coolguy Beatmaker"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)} // handles updating / changing username
-          />
+      <h2>LOGIN</h2>
 
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            placeholder="Your Secret Rock Mantra..."
-            value={password}
-            onChange={(e) => setPassword(e.target.value)} // handles updating / changing password
-          />
+      <form className="log-in-form" onSubmit={handleSubmit}>
+        <label htmlFor="username" className="inputLabel">
+          Username
+        </label>
+        <input
+          type="text"
+          placeholder="Coolguy Beatmaker"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)} // handles updating / changing username
+        />
 
-          <button type="submit">Login</button>
-        </form>
-      </div>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
+        <label htmlFor="password">Password</label>
+        <input
+          type="password"
+          placeholder="Your Secret Rock Mantra..."
+          value={password}
+          onChange={(e) => setPassword(e.target.value)} // handles updating / changing password
+        />
+
+        <button type="submit">Login</button>
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+      </form>
     </div>
   );
 };

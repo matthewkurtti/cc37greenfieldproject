@@ -1,0 +1,11 @@
+.log-in-page {
+  height: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: var(--primary-monochrome-color);
+}
+
+.log-in-form {
+  display: flex;
+  flex-direction: column;
+}
