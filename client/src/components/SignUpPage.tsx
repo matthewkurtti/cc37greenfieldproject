@@ -54,8 +54,8 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
     <div className="sign-up-page">
       <h2>Join SoundCrowd</h2>
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="username" className="inputLabel">
+      <form className="sign-up-form" onSubmit={handleSubmit}>
+        <label htmlFor="username" className="required">
           Username
         </label>
         <input
@@ -64,9 +64,10 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
           value={username}
           onChange={(e) => setUsername(e.target.value)} // sets the value of 'username' to this field on change
           placeholder="Coolguy Beatmaker"
+          autoFocus
         />
 
-        <label htmlFor="password" className="inputLabel">
+        <label htmlFor="password" className="required">
           Password
         </label>
         <input
@@ -88,7 +89,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
           placeholder="Your Rock Origin..."
         />
 
-        <label htmlFor="country" className="inputLabel">
+        <label htmlFor="country" className="required">
           Your Home Country
         </label>
         <input

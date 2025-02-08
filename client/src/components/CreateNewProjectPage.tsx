@@ -1,5 +1,6 @@
 import { useState, FormEvent } from 'react';
 import { getData, postData } from '../helpers/fetchHelpers';
+import './CreateNewProjectPage.css';
 
 // types
 import { User, Project } from '../globalTypes';
@@ -56,36 +57,31 @@ const CreateNewProjectPage = ({
     <>
       <div className="create-new-project-page">
         <h2 className="title">Create a New Project</h2>
-      </div>
 
-      <form onSubmit={handleSubmit}>
-        <label htmlFor="project-name" className="inputLabel">
-          Project Name:
-        </label>
-        <input
-          name="project-name"
-          type="text"
-          value={projectName}
-          onChange={(e) => setProjectName(e.target.value)} // sets the value of 'project_name' to this field on change
-          placeholder="My Awesome Project"
-        />
-        <label htmlFor="description" className="inputLabel">
-          Description:
-        </label>
-        <input
-          name="project-description"
-          type="text"
-          value={projectDescription}
-          onChange={(e) => setProjectDescription(e.target.value)} // sets the value of 'project-description' to this field on change
-          placeholder="Tell us about your project..."
-        />{' '}
-        {/* TODO convert to a text field instead of text box */}
-        <br></br>
-        <hr></hr>
-        <br></br>
-        <button type={'submit'}>Create Your New Jam!</button>
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-      </form>
+        <form className="create-new-project-form" onSubmit={handleSubmit}>
+          <label htmlFor="project-name" className="required">
+            Project Name
+          </label>
+          <input
+            name="project-name"
+            type="text"
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)} // sets the value of 'project_name' to this field on change
+            placeholder="My Awesome Project"
+            autoFocus
+          />
+          <label htmlFor="description">Description</label>
+          <textarea
+            name="project-description"
+            value={projectDescription}
+            onChange={(e) => setProjectDescription(e.target.value)} // sets the value of 'project-description' to this field on change
+            placeholder="Tell us about your project..."
+          ></textarea>
+          {/* TODO convert to a text field instead of text box */}
+          <button type="submit">Create Your New Jam!</button>
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+        </form>
+      </div>
     </>
   );
 };

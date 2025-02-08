@@ -65,14 +65,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
         credentials: 'include',
       });
 
-      let data;
-      try {
-        data = await response.json();
-      } catch (error) {
-        console.error('Error parsing JSON:', error);
-        setMessage('An error occurred while parsing the response');
-        return;
-      }
+      const data = await response.json();
 
       if (response.ok) {
         setMessage('File uploaded successfully');
@@ -89,9 +82,9 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
 
   return (
     <div className="project-page">
-      <h2 className="project-page-title">Project Title: {project.project_name}</h2>
-      <br />
-      <hr />
+      <h2 className="project-page-title">
+        Project Title: {project.project_name}
+      </h2>
       <h3>Project Description</h3>
       <p className="project-page-desc">{project.description}</p>
       <div className="members">
@@ -104,13 +97,6 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
                 <div className="tags">
                   <span className="">{member.role}</span>
                 </div>
-          {members.map((member) => (
-            <li key={member.id}>
-              <div className="member">
-                <span className="member-name">Name: {member.name}</span>
-                <div className="tags">
-                  <span className="">{member.role}</span>
-                </div>
               </div>
             </li>
           ))}
@@ -132,33 +118,8 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
               </div>
             </li>
           ))}
-            </li>
-          ))}
         </ul>
       </div>
-      <div className="stems">
-        <h3 className="stems-title">Stems</h3>
-        <ul>
-          {stems.map((stem) => (
-            <li key={stem.id}>
-              <div className="stem">
-                <span className="stem-name">Name: {stem.stem_name}</span>
-                <a href={stem.url} target="_blank" rel="noopener noreferrer">
-                  Listen
-                </a>
-                <a href={stem.url} download={stem.stem_name}>
-                  <button>Download</button>
-                </a>
-              </div>
-            </li>
-          ))}
-        </ul>
-      </div>
-      <form id="uploadForm" onSubmit={handleFileUpload}>
-        <input type="file" id="fileInput" name="file" required />
-        <button type="submit">Upload</button>
-      </form>
-      <div id="message">{message}</div>
       <form id="uploadForm" onSubmit={handleFileUpload}>
         <input type="file" id="fileInput" name="file" required />
         <button type="submit">Upload</button>

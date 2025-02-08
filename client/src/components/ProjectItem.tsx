@@ -14,7 +14,13 @@ const ProjectItem = ({ project, setCurrentModal }: ProjectItemProps) => {
       onClick={() => setCurrentModal(<ProjectPage project={project} />)}
     >
       <h3> {project.project_name} </h3>
-      <p> {project.description} </p>
+      {project.description ? (
+        <p> {project.description} </p>
+      ) : (
+        <p className="description">
+          No description provided, but it's probably a banger! 💥
+        </p>
+      )}
     </div>
   );
 };

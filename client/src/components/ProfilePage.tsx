@@ -1,6 +1,7 @@
 import { getData } from '../helpers/fetchHelpers';
 import { User } from '../globalTypes';
 import './ProfilePage.css';
+import avatar from '../assets/avatar.png';
 
 type ProfilePageProps = {
   loggedInUser: User | null;
@@ -17,8 +18,16 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
       <h2>PROFILE</h2>
       {loggedInUser && (
         <>
+          <img className="avatar" src={avatar} alt="Your profile picture" />
+          <label>USERNAME</label>
           <p>{loggedInUser.username}</p>
-          <p>{loggedInUser.city}</p>
+          {loggedInUser.city && (
+            <>
+              <label>CITY</label>
+              <p>{loggedInUser.city}</p>
+            </>
+          )}
+          <label>Country</label>
           <p>{loggedInUser.country}</p>
         </>
       )}

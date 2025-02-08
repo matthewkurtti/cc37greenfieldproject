@@ -58,6 +58,7 @@ const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
           placeholder="Coolguy Beatmaker"
           value={username}
           onChange={(e) => setUsername(e.target.value)} // handles updating / changing username
+          autoFocus
         />
 
         <label htmlFor="password">Password</label>
