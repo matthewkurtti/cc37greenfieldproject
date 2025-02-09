@@ -191,49 +191,6 @@ function App() {
           </ul>
         </section>
       </main>
-
-      {/* test buttons for functionality testing */}
-      {/* <footer>
-        <button
-          onClick={async () => {
-            const result = await getData(url, 'api/user');
-            setUserData(result);
-          }}
-        >
-          Test Get
-        </button>
-        <button
-          onClick={async () => {
-            const result = await getData(url, 'api/user', 4);
-            setUserData(result);
-          }}
-        >
-          Test Get By ID
-        </button>
-        <button
-          onClick={async () => {
-            await deleteData(url, 'api/user', 6);
-            const result = await getData(url, 'api/user');
-            setUserData(result);
-          }}
-        >
-          Test Delete
-        </button>
-        <button
-          onClick={async () => {
-            await postData(url, 'api/auth/register', {
-              username: 'Joe',
-              password: 'joepass',
-              city: 'Hamamatsu',
-              country: 'Japan',
-            });
-            const result = await getData(url, 'api/user');
-            setUserData(result);
-          }}
-        >
-          Test Post
-        </button>
-      </footer> */}
     </>
   );
 }
