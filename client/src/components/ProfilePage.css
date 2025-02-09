@@ -1,0 +1,27 @@
+.profile-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  background-color: var(--primary-monochrome-color);
+  overflow-y: auto;
+}
+
+.avatar {
+  width: 150px;
+  margin-top: 1rem;
+  border: 3px solid transparent;
+  border-radius: 100%;
+  background: conic-gradient(#f1f1f1 /* the background color */ 0 0) padding-box,
+    linear-gradient(var(--primary-accent-color), var(--primary-logo-color))
+      border-box;
+}
+
+.profile-page button {
+  align-self: center;
+  min-width: 100px;
+  margin-top: 1.5rem;
+  padding: 0.6rem;
+}
