@@ -8,8 +8,7 @@ type ProjectPageProps = {
 
 interface Member {
   id: number;
-  name: string;
-  role: string;
+  username: string;
 }
 
 interface Stem {
@@ -29,14 +28,23 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
   const [message, setMessage] = useState<string>('');
 
   useEffect(() => {
+    console.log('MEMBER DATA', members);
+  });
+
+  useEffect(() => {
+    console.log('FETCHING DATA IN PROJECT');
     // Fetch members and stems for the project
     const fetchProjectData = async () => {
       try {
-        const membersResponse = await fetch('/api/project/members');
+        const membersResponse = await fetch(
+          `${url}api/project/${project.id}/member`
+        );
         const membersData = await membersResponse.json();
         setMembers(membersData);
 
-        const stemsResponse = await fetch(`/api/project/${project.id}/stems`);
+        const stemsResponse = await fetch(
+          `${url}api/project/${project.id}/stem`
+        );
         const stemsData = await stemsResponse.json();
         setStems(stemsData);
       } catch (error) {
@@ -53,8 +61,6 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
     const fileInput = document.getElementById('fileInput') as HTMLInputElement;
     const file = fileInput.files?.[0];
 
-    console.log(file);
-
     if (!file) {
       setMessage('No file selected');
       return;
@@ -63,8 +69,6 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('project_id', project.id.toString());
-
-    console.log(formData);
 
     try {
       const response = await fetch(`${url}api/user/upload`, {
@@ -101,10 +105,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
           {members.map((member) => (
             <li key={member.id}>
               <div className="member">
-                <span className="member-name">Name: {member.name}</span>
-                <div className="tags">
-                  <span className="">{member.role}</span>
-                </div>
+                <span className="member-name">Name: {member.username}</span>
               </div>
             </li>
           ))}
