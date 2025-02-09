@@ -20,7 +20,11 @@ export const getData = async (
   }
 };
 
-export const deleteData = async (url: string, endpoint: string, id: number) => {
+export const deleteData = async (
+  url: string,
+  endpoint: string,
+  id: number | null = null
+) => {
   try {
     const response = await fetch(`${url}${endpoint}/${id}`, {
       method: 'DELETE',

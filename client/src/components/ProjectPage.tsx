@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ProjectPage.css';
 import { Project } from '../globalTypes';
+import { deleteData, getData } from '../helpers/fetchHelpers';
 
 type ProjectPageProps = {
   project: Project;
@@ -124,6 +125,18 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
                 <a href={stem.url} download={stem.stem_name}>
                   <button>Download</button>
                 </a>
+                <button
+                  onClick={async () => {
+                    await deleteData(url, `api/stem`, stem.id);
+                    const result = await getData(
+                      url,
+                      `api/project/${project.id}/stem`
+                    );
+                    setStems(result);
+                  }}
+                >
+                  Delete
+                </button>
               </div>
             </li>
           ))}
