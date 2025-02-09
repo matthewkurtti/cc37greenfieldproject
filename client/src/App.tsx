@@ -13,7 +13,7 @@ import LogInPage from './components/LogInPage';
 import Modal from './components/Modal';
 
 // images
-import logo from './assets/soundcloud_logo.png';
+import logo from './assets/sc_logo_regular_dark.png';
 
 // styles
 import './App.css';

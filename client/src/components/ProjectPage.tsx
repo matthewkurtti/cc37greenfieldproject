@@ -17,6 +17,7 @@ interface Stem {
   stem_name: string;
   url: string;
   project_id: number;
+  api_id: string;
 }
 
 const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
@@ -79,6 +80,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
       });
 
       const data = await response.json();
+      console.log('DATA', data);
 
       if (response.ok) {
         setMessage('File uploaded successfully');
@@ -137,6 +139,9 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
                 >
                   Delete
                 </button>
+                <iframe
+                  src={`https://drive.google.com/file/d/${stem.api_id}/preview`}
+                ></iframe>
               </div>
             </li>
           ))}

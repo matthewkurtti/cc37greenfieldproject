@@ -14,6 +14,7 @@ exports.up = function (knex) {
       .onDelete('CASCADE');
     table.string('stem_name');
     table.string('url');
+    table.string('api_id');
     table.timestamps(true, true);
   });
 };

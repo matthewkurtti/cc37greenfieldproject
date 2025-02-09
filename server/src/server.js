@@ -330,8 +330,9 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
         stem_name: file.originalname,
         url: publicUrl.webViewLink,
         project_id: parseInt(project_id, 10),
+        api_id: uploadedFile.id,
       })
-      .returning(['id', 'stem_name', 'url', 'project_id']);
+      .returning(['id', 'stem_name', 'url', 'project_id', 'api_id']);
 
     console.log('New stem:', newStem); // Add logging
     res
