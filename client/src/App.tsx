@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getData, deleteData, postData } from './helpers/fetchHelpers';
+import { getData } from './helpers/fetchHelpers';
 
 // types
 import { User, Project } from './globalTypes';
