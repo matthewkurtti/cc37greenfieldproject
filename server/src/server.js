@@ -9,10 +9,9 @@ const multer = require('multer');
 const { uploadFile, generatePublicUrl } = require('./driveApiHandler');
 
 const app = express();
-
-// ---------- Middleware (START) ---------- */
 const upload = multer({ dest: 'uploads/' });
 
+// ---------- Middleware (START) ---------- */
 if (!process.env.NODE_ENV) {
   app.use(
     cors({
@@ -79,7 +78,6 @@ app.delete('/api/user/:id', async (req, res) => {
 });
 
 // ---------- STEM ENDPOINTS ---------- */
-
 // Get all stems currently on the site
 app.get('/api/stem', async (req, res) => {
   try {
@@ -114,7 +112,6 @@ app.get('/api/stem/:id', async (req, res) => {
 
 // GET / JOIN joines the current user to any stems they currently have active and returns the list
 // TODO this may need a revision since we now have a join table that does this on its own
-
 app.get('/api/user/:userId/stems', async (req, res) => {
   const { userId } = req.params; // handles getting userId from the parameter passed to GET request
 
@@ -132,7 +129,6 @@ app.get('/api/user/:userId/stems', async (req, res) => {
 });
 
 // ----------- Project Endpoints ------------ */
-
 // "get" endpoint (get all project information)
 app.get('/api/project', async (req, res) => {
   try {
@@ -179,8 +175,27 @@ app.post('/api/project/create/:id', async (req, res) => {
   }
 });
 
+// GET /api/project/members
+app.get('/api/project/:projectId/member', async (req, res) => {
+  console.log('GETTING ALL MEMBERS FOR THIS PROJECT');
+  try {
+    const projectId = req.params.projectId;
+    console.log('ID', projectId);
+    const members = await knex('user_projects')
+      .join('users', 'user_id', 'users.id')
+      .select('users.id', 'users.username')
+      .where('project_id', projectId);
+
+    res.json(members);
+  } catch (error) {
+    console.error('Database connection error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // GET /api/project/:projectId/stems
-app.get('/api/project/:projectId/stems', async (req, res) => {
+app.get('/api/project/:projectId/stem', async (req, res) => {
+  console.log('GETTING ALL STEMS FOR THIS PROJECT');
   const { projectId } = req.params;
   try {
     const stems = await knex('stems')
@@ -190,17 +205,6 @@ app.get('/api/project/:projectId/stems', async (req, res) => {
   } catch (error) {
     console.error('Error fetching stems:', error);
     res.status(500).json({ error: 'Internal server error' });
-  }
-});
-// ------------ TESTING ---------- */
-
-// "put" testing endpoint (update)
-app.put('/test/', async (req, res) => {
-  try {
-    res.json({ message: 'Put route is working correctly.' });
-  } catch (error) {
-    console.error('Database connection error:', error);
-    res.status(500).json({ error: error.message });
   }
 });
 
