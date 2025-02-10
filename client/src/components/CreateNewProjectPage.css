@@ -32,4 +32,5 @@
 .create-new-project-page .error-message {
   align-self: center;
   color: var(--primary-accent-color);
+  text-align: center;
 }

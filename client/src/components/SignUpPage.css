@@ -32,4 +32,5 @@
 .sign-up-form .error-message {
   align-self: center;
   color: var(--primary-accent-color);
+  text-align: center;
 }
