@@ -175,12 +175,39 @@ app.post('/api/project/create/:id', async (req, res) => {
   }
 });
 
+// POST add current user to project 
+app.post('/api/project/:userId/:projectId', async (req, res) => {
+  try {
+
+    const userId = Number(req.params.userId); // capture the user id from URL params 
+    const projectId = Number(req.params.projectId); // capture the project id from the URL params
+    
+    if (!userId || !projectId) {
+      return res.status(400).json({ message: 'User ID and Project ID are required' });
+    }
+
+    // insert the user + project into the user_projects table
+    const [newUserProject] = await knex('user_projects')
+      .insert({ user_id: userId, project_id: projectId })
+      .returning('*'); // returns the newly inserted row
+    
+    // cwwwheck if the insertion was successful
+    if (newUserProject) {
+      return res.status(201).json({ message: 'User successfully added to the project', data: newUserProject });
+    } else {
+      return res.status(500).json({ message: 'Failed to add user to project' });
+    }
+  } catch (error) {
+    console.error('Error adding user to project:', error);
+    return res.status(500).json({ message: 'An error occurred while adding the user to the project' });
+  }
+});
+
 // GET /api/project/:projectId/members
 app.get('/api/project/:projectId/member', async (req, res) => {
-  console.log('GETTING ALL MEMBERS FOR THIS PROJECT');
+  
   try {
     const projectId = req.params.projectId;
-    console.log('ID', projectId);
     const members = await knex('user_projects')
       .join('users', 'user_id', 'users.id')
       .select('users.id', 'users.username')
@@ -195,7 +222,7 @@ app.get('/api/project/:projectId/member', async (req, res) => {
 
 // GET /api/project/:projectId/stems
 app.get('/api/project/:projectId/stem', async (req, res) => {
-  console.log('GETTING ALL STEMS FOR THIS PROJECT');
+  
   const { projectId } = req.params;
   try {
     const stems = await knex('stems')
@@ -210,7 +237,6 @@ app.get('/api/project/:projectId/stem', async (req, res) => {
 
 // DELETE /api/stem/:id
 app.delete('/api/stem/:id', async (req, res) => {
-  console.log('DELETING A STEM');
   try {
     const id = req.params.id;
     await knex('stems').where('id', id).del();
@@ -334,7 +360,7 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
       })
       .returning(['id', 'stem_name', 'url', 'project_id', 'api_id']);
 
-    console.log('New stem:', newStem); // Add logging
+    
     res
       .status(201)
       .json({ message: 'File uploaded successfully', stem: newStem });

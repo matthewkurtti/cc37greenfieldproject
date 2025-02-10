@@ -184,6 +184,7 @@ function App() {
                   {/* calls and displays each project by project id */}
                   <ProjectItem
                     project={project}
+                    loggedInUser={loggedInUser}
                     setCurrentModal={setCurrentModal}
                   />
                 </li>
