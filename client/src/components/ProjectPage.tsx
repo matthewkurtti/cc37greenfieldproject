@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './ProjectPage.css';
 import { Project } from '../globalTypes';
+import { deleteData, getData } from '../helpers/fetchHelpers';
 
 type ProjectPageProps = {
   project: Project;
@@ -16,6 +17,7 @@ interface Stem {
   stem_name: string;
   url: string;
   project_id: number;
+  api_id: string;
 }
 
 const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
@@ -78,6 +80,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
       });
 
       const data = await response.json();
+      console.log('DATA', data);
 
       if (response.ok) {
         setMessage('File uploaded successfully');
@@ -124,6 +127,21 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ project }) => {
                 <a href={stem.url} download={stem.stem_name}>
                   <button>Download</button>
                 </a>
+                <button
+                  onClick={async () => {
+                    await deleteData(url, `api/stem`, stem.id);
+                    const result = await getData(
+                      url,
+                      `api/project/${project.id}/stem`
+                    );
+                    setStems(result);
+                  }}
+                >
+                  Delete
+                </button>
+                <iframe
+                  src={`https://drive.google.com/file/d/${stem.api_id}/preview`}
+                ></iframe>
               </div>
             </li>
           ))}

@@ -175,7 +175,7 @@ app.post('/api/project/create/:id', async (req, res) => {
   }
 });
 
-// GET /api/project/members
+// GET /api/project/:projectId/members
 app.get('/api/project/:projectId/member', async (req, res) => {
   console.log('GETTING ALL MEMBERS FOR THIS PROJECT');
   try {
@@ -205,6 +205,19 @@ app.get('/api/project/:projectId/stem', async (req, res) => {
   } catch (error) {
     console.error('Error fetching stems:', error);
     res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// DELETE /api/stem/:id
+app.delete('/api/stem/:id', async (req, res) => {
+  console.log('DELETING A STEM');
+  try {
+    const id = req.params.id;
+    await knex('stems').where('id', id).del();
+    res.json({ message: 'Stem successfully deleted.' });
+  } catch (error) {
+    console.error('Database connection error.', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
@@ -317,8 +330,9 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
         stem_name: file.originalname,
         url: publicUrl.webViewLink,
         project_id: parseInt(project_id, 10),
+        api_id: uploadedFile.id,
       })
-      .returning(['id', 'stem_name', 'url', 'project_id']);
+      .returning(['id', 'stem_name', 'url', 'project_id', 'api_id']);
 
     console.log('New stem:', newStem); // Add logging
     res

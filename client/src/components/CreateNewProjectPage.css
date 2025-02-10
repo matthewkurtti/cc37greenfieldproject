@@ -25,8 +25,8 @@
 .create-new-project-page button {
   align-self: center;
   min-width: 100px;
-  margin-top: 1.5rem;
-  padding: 0.6rem;
+  margin: 1.5rem 0;
+  padding: 0.75rem;
 }
 
 .create-new-project-page .error-message {
