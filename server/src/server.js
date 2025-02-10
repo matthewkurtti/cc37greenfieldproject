@@ -11,7 +11,7 @@ const { uploadFile, generatePublicUrl } = require('./driveApiHandler');
 const app = express();
 const upload = multer({ dest: 'uploads/' });
 
-// ---------- Middleware (START) ---------- */
+// ---------- Middleware (START) ----------
 if (!process.env.NODE_ENV) {
   app.use(
     cors({
@@ -35,18 +35,23 @@ app.use(
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
-    // What does this do, might cause deployment issues
     cookie: { secure: false },
   })
 );
-// ----------- Middleware (END) ----------- */
+// ----------- Middleware (END) -----------
 
-// ----------- User Endpoints ------------ */
+// ----------- User Endpoints ------------
 // "get" endpoint (get all users)
 app.get('/api/user', async (req, res) => {
   try {
-    const users = await knex.select('*').from('users').limit(100);
-    res.json(users);
+    const [users] = await knex
+      .select('id', 'username', 'city', 'country')
+      .from('users')
+      .limit(100);
+
+    console.log('USERS', users);
+
+    res.json({ users });
   } catch (error) {
     console.error('Database connection error:', error);
     res.status(500).json({ error: error.message });
@@ -57,7 +62,11 @@ app.get('/api/user', async (req, res) => {
 app.get('/api/user/:id', async (req, res) => {
   try {
     const id = req.params.id;
-    const user = await knex.select('*').from('users').where('id', id).first();
+    const user = await knex
+      .select('id', 'username', 'city', 'country')
+      .from('users')
+      .where('id', id)
+      .first();
     res.json(user);
   } catch (error) {
     console.error('Database connection error:', error);
@@ -77,58 +86,7 @@ app.delete('/api/user/:id', async (req, res) => {
   }
 });
 
-// ---------- STEM ENDPOINTS ---------- */
-// Get all stems currently on the site
-app.get('/api/stem', async (req, res) => {
-  try {
-    const stems = await knex.select('stems').from('stems').limit(100);
-    res.json(stems);
-  } catch (error) {
-    console.error('Database connection error:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// GET a specific stem by ID
-app.get('/api/stem/:id', async (req, res) => {
-  const { id } = req.params; // Get the id from the URL parameter
-
-  try {
-    const stem = await knex('stems')
-      .select('stems')
-      .where('id', id) // Filter by the project id
-      .first(); // Use first() to get only one result since id should be unique
-
-    if (!stem) {
-      return res.status(404).json({ error: 'Project not found' });
-    }
-
-    res.json(stem); // Send back the stem data for that project
-  } catch (error) {
-    console.error('Database connection error:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// GET / JOIN joines the current user to any stems they currently have active and returns the list
-// TODO this may need a revision since we now have a join table that does this on its own
-app.get('/api/user/:userId/stems', async (req, res) => {
-  const { userId } = req.params; // handles getting userId from the parameter passed to GET request
-
-  try {
-    const userStems = await knex('user_stems')
-      .join('stems', 'user_stems.stem_id', 'stems.id') // temporarily join the user_stems and stems tables as a comparator
-      .where('user_stems.user_id', userId) // filters by user_id for current user
-      .select('stems.*'); // select all mathing columns from "stems"
-
-    res.json(userStems);
-  } catch (error) {
-    console.error('Database connection error:', error);
-    res.status(500).json({ error: error.message });
-  }
-});
-
-// ----------- Project Endpoints ------------ */
+// ----------- Project Endpoints ------------
 // "get" endpoint (get all project information)
 app.get('/api/project', async (req, res) => {
   try {
@@ -162,6 +120,7 @@ app.post('/api/project/create/:id', async (req, res) => {
     const userId = Number(req.params.id); // capture user id (the user creating the project)
     const projectId = await knex('projects').returning('id').insert({
       project_name: req.body.project_name,
+      leader_id: userId,
       description: req.body.description,
     }); // insert new project into table and return new project id
     const projectAndUserIds = await knex('user_projects').insert({
@@ -175,37 +134,42 @@ app.post('/api/project/create/:id', async (req, res) => {
   }
 });
 
-// POST add current user to project 
+// POST add current user to project
 app.post('/api/project/:userId/:projectId', async (req, res) => {
   try {
-
-    const userId = Number(req.params.userId); // capture the user id from URL params 
+    const userId = Number(req.params.userId); // capture the user id from URL params
     const projectId = Number(req.params.projectId); // capture the project id from the URL params
-    
+
     if (!userId || !projectId) {
-      return res.status(400).json({ message: 'User ID and Project ID are required' });
+      return res
+        .status(400)
+        .json({ message: 'User ID and Project ID are required' });
     }
 
     // insert the user + project into the user_projects table
     const [newUserProject] = await knex('user_projects')
       .insert({ user_id: userId, project_id: projectId })
       .returning('*'); // returns the newly inserted row
-    
-    // cwwwheck if the insertion was successful
+
+    // check if the insertion was successful
     if (newUserProject) {
-      return res.status(201).json({ message: 'User successfully added to the project', data: newUserProject });
+      return res.status(201).json({
+        message: 'User successfully added to the project',
+        data: newUserProject,
+      });
     } else {
       return res.status(500).json({ message: 'Failed to add user to project' });
     }
   } catch (error) {
     console.error('Error adding user to project:', error);
-    return res.status(500).json({ message: 'An error occurred while adding the user to the project' });
+    return res.status(500).json({
+      message: 'An error occurred while adding the user to the project',
+    });
   }
 });
 
-// GET /api/project/:projectId/members
+// GET /api/project/:projectId/members (get all members of given project)
 app.get('/api/project/:projectId/member', async (req, res) => {
-  
   try {
     const projectId = req.params.projectId;
     const members = await knex('user_projects')
@@ -220,9 +184,8 @@ app.get('/api/project/:projectId/member', async (req, res) => {
   }
 });
 
-// GET /api/project/:projectId/stems
+// GET /api/project/:projectId/stems (get all stems of given project)
 app.get('/api/project/:projectId/stem', async (req, res) => {
-  
   const { projectId } = req.params;
   try {
     const stems = await knex('stems')
@@ -247,7 +210,7 @@ app.delete('/api/stem/:id', async (req, res) => {
   }
 });
 
-// ---------- Authentication (START) ---------- */
+// ---------- Authentication (START) ----------
 // POST /api/auth/register
 // it (should allow a new user to register)
 app.post('/api/auth/register', async (req, res) => {
@@ -308,6 +271,7 @@ app.get('/api/auth/user', (req, res) => {
     return res.status(401).json({ message: 'Unauthorized' });
   }
   knex('users')
+    .select('id', 'username', 'city', 'country')
     .where({ id: req.session.userId })
     .first()
     .then((user) => {
@@ -332,7 +296,7 @@ app.get('/api/auth/logout', (req, res) => {
     res.json({ message: 'Logout  successful' });
   });
 });
-// ----------- Authentication (END) ----------- */
+// ----------- Authentication (END) -----------
 
 // POST /api/user/upload
 app.post('/api/user/upload', upload.single('file'), async (req, res) => {
@@ -360,7 +324,6 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
       })
       .returning(['id', 'stem_name', 'url', 'project_id', 'api_id']);
 
-    
     res
       .status(201)
       .json({ message: 'File uploaded successfully', stem: newStem });
@@ -369,7 +332,6 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-// -------------
 
 const port = process.env.PORT || 8080;
 

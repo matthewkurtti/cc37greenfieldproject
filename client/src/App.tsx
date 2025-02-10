@@ -1,30 +1,32 @@
-import { useState, useEffect } from "react";
-import { getData } from "./helpers/fetchHelpers";
+import { useState, useEffect } from 'react';
+import { getData } from './helpers/fetchHelpers';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 
 // types
-import { User, Project } from "./globalTypes";
+import { User, Project } from './globalTypes';
 
 // components
-import ProjectItem from "./components/ProjectItem";
-import ProfilePage from "./components/ProfilePage";
-import CreateNewProjectPage from "./components/CreateNewProjectPage";
-import SignUpPage from "./components/SignUpPage";
-import LogInPage from "./components/LogInPage";
-import Modal from "./components/Modal";
+import ProjectItem from './components/ProjectItem';
+import ProfilePage from './components/ProfilePage';
+import CreateNewProjectPage from './components/CreateNewProjectPage';
+import SignUpPage from './components/SignUpPage';
+import LogInPage from './components/LogInPage';
+import Modal from './components/Modal';
 
 // images
-import logo from "./assets/sc_logo_regular_dark.png";
+import logo from './assets/sc_logo_regular_dark.png';
 
 // styles
-import "./App.css";
+import './App.css';
 
 function App() {
-  console.log("MODE:", import.meta.env.MODE);
+  console.log('MODE:', import.meta.env.MODE);
 
   const url: string =
-    import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/"; // sets database target URL based on current environment
+    import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/'; // sets database target URL based on current environment
 
-  console.log("URL:", url);
+  console.log('URL:', url);
 
   const [userData, setUserData] = useState<object | null>(null);
 
@@ -35,11 +37,11 @@ function App() {
 
   // check to see if the user has a valid session token on page load
   const checkIfLoggedIn = async () => {
-    const result = await getData(url, "api/auth/user");
+    const result = await getData(url, 'api/auth/user');
 
     if (
-      result.message === "Unauthorized" ||
-      result.message === "User not found"
+      result.message === 'Unauthorized' ||
+      result.message === 'User not found'
     ) {
       setLoggedInUser(null);
     } else {
@@ -49,19 +51,19 @@ function App() {
 
   // ---------- Testing Logs (START) ---------- */
   useEffect(() => {
-    console.log("USER DATA:", userData);
+    console.log('USER DATA:', userData);
   }, [userData]);
 
   useEffect(() => {
-    console.log("PROJECT DATA:", projectData);
+    console.log('PROJECT DATA:', projectData);
   }, [projectData]);
 
   useEffect(() => {
-    console.log("CURRENT MODAL:", currentModal);
+    console.log('CURRENT MODAL:', currentModal);
   }, [currentModal]);
 
   useEffect(() => {
-    console.log("LOGGED IN USER:", loggedInUser);
+    console.log('LOGGED IN USER:', loggedInUser);
   }, [loggedInUser]);
   // ----------- Testing Logs (END) ----------- */
 
@@ -71,10 +73,10 @@ function App() {
 
     // pulls all data from the database
     (async () => {
-      const userResult = await getData(url, "api/user");
+      const userResult = await getData(url, 'api/user');
       setUserData(userResult);
 
-      const projectResult = await getData(url, "api/project");
+      const projectResult = await getData(url, 'api/project');
       setProjectData(projectResult);
     })();
   }, []);
@@ -98,6 +100,7 @@ function App() {
               <>
                 <li>
                   <button
+                    className="action-call"
                     type="button"
                     onClick={() =>
                       setCurrentModal(
@@ -132,6 +135,7 @@ function App() {
               <>
                 <li>
                   <button
+                    className="action-call"
                     type="button"
                     onClick={() =>
                       setCurrentModal(
@@ -154,7 +158,10 @@ function App() {
                       )
                     }
                   >
-                    Log In
+                    Login{' '}
+                    <span className="nav-icon">
+                      <FontAwesomeIcon icon={faRightToBracket} />
+                    </span>
                   </button>
                 </li>
               </>
@@ -166,11 +173,19 @@ function App() {
       <main>
         {loggedInUser ? (
           <section className="user-logged-in-hero">
-            <h2 className="frontpage-hero-title">Hello, <span className="user-logged-in-name">{loggedInUser.username}</span><span className="frontpage-hero-title">!</span></h2>
+            <h2 className="frontpage-hero-title">
+              Hello,{' '}
+              <span className="user-logged-in-name">
+                {loggedInUser.username}
+              </span>
+              <span className="frontpage-hero-title">!</span>
+            </h2>
           </section>
         ) : (
           <section className="user-not-logged-in-hero">
-            <h2 className="frontpage-hero-title">Welcome to SoundCrowd</h2>
+            <h2 className="frontpage-hero-title">
+              Welcome to <span className="logo-green">Sound</span>Crowd
+            </h2>
             <h3 className="frontpage-hero-subtitle">
               We can't wait to hear from you.
             </h3>

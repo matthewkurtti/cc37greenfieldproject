@@ -14,7 +14,6 @@
   position: relative;
   width: 90%;
   height: 80%;
-  min-width: 400px;
   max-width: 800px;
   padding: 30px;
   background-color: #8ececc;
@@ -26,11 +25,9 @@
   position: absolute;
   top: 5px;
   right: 5px;
-}
-
-.close-btn-img {
-  width: 22px;
-  height: 22px;
-  filter: invert(99%) sepia(2%) saturate(44%) hue-rotate(163deg)
-    brightness(118%) contrast(100%);
+  padding: 0;
+  width: 38px;
+  aspect-ratio: 1;
+  font-size: 1.3rem;
+  border-radius: 15px;
 }
