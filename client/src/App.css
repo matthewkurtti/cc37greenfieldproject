@@ -35,6 +35,23 @@ main {
   text-align: center;
 }
 
+.user-logged-in-hero {
+  display: flex;
+  flex-direction: column; /* Aligns items vertically */
+  justify-content: center; /* Vertically centers the items */
+  align-items: center; /* Horizontally centers the items */
+  font-size: 2.6rem;
+  width: 90%;
+  max-width: 800px;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.user-logged-in-name {
+  color: var(--secondary-logo-color);
+  font-family: var(--block-text)
+}
+
 .news-feed {
   width: 95%;
   max-width: 1200px;
