@@ -1,3 +1,5 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
 import { getData } from '../helpers/fetchHelpers';
 import { User } from '../globalTypes';
 import './ProfilePage.css';
@@ -27,7 +29,7 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
               <p>{loggedInUser.city}</p>
             </>
           )}
-          <label>Country</label>
+          <label>COUNTRY</label>
           <p>{loggedInUser.country}</p>
         </>
       )}
@@ -38,7 +40,10 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
           setCurrentModal(null);
         }}
       >
-        Log Out
+        Log Out{' '}
+        <span className="nav-icon">
+          <FontAwesomeIcon icon={faRightToBracket} />
+        </span>
       </button>
     </div>
   );

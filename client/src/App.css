@@ -49,7 +49,12 @@ main {
 
 .user-logged-in-name {
   color: var(--secondary-logo-color);
-  font-family: var(--block-text)
+  font-family: var(--block-text);
+}
+
+.logo-green {
+  color: var(--secondary-logo-color);
+  font-family: var(--block-text);
 }
 
 .news-feed {

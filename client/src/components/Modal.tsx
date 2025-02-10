@@ -1,6 +1,7 @@
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import './ProjectItem.css';
 import './Modal.css';
-import cross from '../assets/circle-close-multiple-svgrepo-com.svg';
 
 type ModalProps = {
   // accepts a JSX component as a prop and displays the component content
@@ -21,7 +22,7 @@ const Modal = ({ currentModal, setCurrentModal }: ModalProps) => {
             setCurrentModal(null);
           }}
         >
-          <img className="close-btn-img" src={cross} />
+          <FontAwesomeIcon icon={faXmark} />
         </button>
       </div>
     </div>

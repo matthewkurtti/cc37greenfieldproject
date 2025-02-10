@@ -1,14 +1,99 @@
 .project-page {
+  display: flex;
+  flex-direction: column;
   height: 100%;
   padding: 1rem;
   border-radius: 10px;
-  background-color: #fff;
+  background-color: var(--primary-monochrome-color);
+  overflow-y: auto;
 }
 
-.project-page-title {
-  margin-bottom: 0.5rem;
+.project-page h2 {
+  min-width: 300px;
 }
 
-.project-page-desc {
-  margin-bottom: 0.5rem;
+.project-page h3 {
+  margin-top: 0.5rem;
+  margin-bottom: 0.2rem;
+}
+
+.project-page .member,
+.project-page .stem {
+  display: flex;
+  align-items: center;
+  height: 40px;
+
+  padding: 0.4rem 1rem;
+  border-radius: 100vh;
+  background-color: #f1f1f1;
+}
+
+.project-page .member {
+  display: flexbox;
+  margin: 0.2rem 0;
+}
+
+.crown {
+  color: var(--primary-accent-color);
+  margin-left: auto;
+}
+
+.project-page .stem:first-child {
+  margin: 0.2rem 0;
+}
+
+.project-page .stem {
+  margin-bottom: 0.2rem;
+}
+
+.project-page li {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.project-page .stem-name {
+  text-overflow: '...';
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.project-page .controls {
+  display: flex;
+  gap: 0.2rem;
+  margin-left: auto;
+  padding-left: 0.2rem;
+}
+
+.project-page iframe {
+  width: 100%;
+  margin-bottom: 0.2rem;
+  border: none;
+  border-radius: 100vh;
+}
+
+#uploadForm {
+  display: flex;
+  margin-top: 0.8rem;
+}
+
+#uploadForm input {
+  min-width: 200px;
+  flex: 1;
+}
+
+.upload-btn {
+  margin-left: 0.4rem;
+  padding: 0;
+  width: 55px;
+  height: 55px;
+  font-size: 1.3rem;
+  border-radius: 15px;
+}
+
+.join-btn {
+  align-self: center;
+  min-width: 100px;
+  margin-top: 1.5rem;
+  padding: 0.6rem;
 }
