@@ -176,10 +176,24 @@ app.post('/api/project/:userId/:projectId', async (req, res) => {
 app.get('/api/project/:projectId/member', async (req, res) => {
   try {
     const projectId = req.params.projectId;
-    const members = await knex('user_projects')
+    let members = await knex('user_projects')
       .join('users', 'user_id', 'users.id')
       .select('users.id', 'users.username')
       .where('project_id', projectId);
+
+    // ensures leader is the first member
+    const project = await knex
+      .select('*')
+      .from('projects')
+      .where('id', projectId)
+      .first();
+
+    let leader = members.filter((member) => member.id === project.leader_id)[0];
+
+    const leaderIndex = members.indexOf(leader);
+
+    members.splice(leaderIndex, 1);
+    members.unshift(leader);
 
     res.json(members);
   } catch (error) {

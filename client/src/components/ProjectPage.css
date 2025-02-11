@@ -8,8 +8,14 @@
   overflow-y: auto;
 }
 
-.project-page h2 {
-  min-width: 300px;
+.project-header {
+  display: flex;
+  align-items: start;
+}
+
+.project-header .icon-btn {
+  margin-top: 2.5px;
+  margin-left: 0.5rem;
 }
 
 .project-page h3 {
