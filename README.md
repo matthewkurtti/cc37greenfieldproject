@@ -67,9 +67,9 @@ If you are not sure how to obtain these details please contact a member of the t
 ## Our Tech Stack
 The front end of SoundCloud was built using TypeScript and React the back end was built using Node.js, Express, PostgreSQL and Knex.js
 
-Our file upload system relies heavily on the Google Drive API. Thank you Google 🙏.
+Our file upload system relies heavily on the Google Drive API. Thank you Google 🙏
 
-# The team
+# The Team
 
 
 <a href="https://github.com/TeamMaraca/cc37greenfieldproject/graphs/contributors">
