@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowsRotate } from '@fortawesome/free-solid-svg-icons';
 import { faCrown } from '@fortawesome/free-solid-svg-icons';
 import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
@@ -70,6 +71,8 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
     fetchProjectData();
   }, [project.id]);
 
+  useEffect(() => {}, [members]);
+
   const handleFileUpload = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -131,9 +134,26 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
     }
   };
 
+  const refreshProject = async () => {
+    const membersResponse = await fetch(
+      `${url}api/project/${project.id}/member`
+    );
+    const membersData = await membersResponse.json();
+    setMembers(membersData);
+
+    const stemsResponse = await fetch(`${url}api/project/${project.id}/stem`);
+    const stemsData = await stemsResponse.json();
+    setStems(stemsData);
+  };
+
   return (
     <div className="project-page">
-      <h2>{project.project_name}</h2>
+      <div className="project-header">
+        <h2>{project.project_name}</h2>
+        <button className="icon-btn" onClick={refreshProject}>
+          <FontAwesomeIcon icon={faArrowsRotate} />
+        </button>
+      </div>
       <p>{project.description}</p>
 
       <div>
