@@ -64,7 +64,7 @@ If you are not sure how to obtain these details please contact a member of the t
 
 10. If everything went as planned you should be up and running on http://localhost:5173/
 
-## Our Tech Stack
+# Our Tech Stack
 The front end of SoundCloud was built using TypeScript and React the back end was built using Node.js, Express, PostgreSQL and Knex.js
 
 Our file upload system relies heavily on the Google Drive API. Thank you Google 🙏
