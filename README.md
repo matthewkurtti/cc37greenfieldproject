@@ -46,16 +46,16 @@ npm run express-dev
     ```
 8. Create a `.env.local` file in the root of the server directory
 ```
-DB_USER=<insert user>
-DB_PASSWORD=<insert password>
+DB_USER=<Insert user>
+DB_PASSWORD=<Insert password>
 DB_NAME=sound_crowd
 DB_HOST=localhost
 DB_PORT=5432
-SESSION_SECRET=<insert a random secret string for session storage>
+SESSION_SECRET=<Insert a random secret string for session storage>
 ```
 9. You will also need to add the following environment varaibles for the Google Drive API
 ```
-CLIENT_ID=<insert client ID>
+CLIENT_ID=<Insert client ID>
 CLIENT_SECRET=<Insert client secret>
 REDIRECT_URI=<Insert redirect URI>
 REFRESH_TOKEN=<Insert refresh token>
