@@ -1,4 +1,4 @@
-<img src="./client/src/assets/sc_logo_regular_dark.png" alt="SoundCrowd's Logo" width="400"/>
+<a href="https://soundcrowd.onrender.com/"><img src="./client/src/assets/sc_logo_regular_dark.png" alt="SoundCrowd's Logo" width="400"/></a>
 
 # The Concept
 ## "It's like GitHub for musicians..."
