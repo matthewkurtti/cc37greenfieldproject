@@ -42,8 +42,9 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
     });
 
     setCurrentModal(<LogInPage setCurrentModal={setCurrentModal} />);
-    const result = await getData(url, 'api/user');
-    setUserData(result);
+    await getData(url, 'api/user');
+    //const result = await getData(url, 'api/user');
+    //setUserData(result);
   };
 
   return (
