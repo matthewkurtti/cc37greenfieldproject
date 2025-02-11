@@ -99,6 +99,7 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
         setStems((prevStems) => [...prevStems, data.stem]);
       } else {
         setMessage(data.message);
+        console.error(message);
       }
     } catch (error) {
       console.error('Error:', error);
@@ -114,13 +115,11 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
 
     try {
       // get the current userID
-      const response = await fetch(
-        `${url}api/project/${loggedInUser.id}/${project.id}`,
-        {
+      if (loggedInUser) {
+        await fetch(`${url}api/project/${loggedInUser.id}/${project.id}`, {
           method: 'POST',
-        }
-      );
-
+        });
+      }
       const membersResponse = await fetch(
         `${url}api/project/${project.id}/member`
       );

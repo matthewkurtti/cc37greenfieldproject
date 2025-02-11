@@ -1,18 +1,18 @@
 import { useState, FormEvent } from 'react';
 import { getData, postData } from '../helpers/fetchHelpers';
 import { randomName } from '../helpers/randomName';
-import { User } from '../globalTypes';
+//import { User } from '../globalTypes';
 import LogInPage from '../components/LogInPage';
 
 import './SignUpPage.css';
 
 type SignUpPageProps = {
-  setUserData: React.Dispatch<React.SetStateAction<User[] | null>>;
+  //setUserData: React.Dispatch<React.SetStateAction<User[] | null>>;
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 };
 
 const SignUpPage: React.FC<SignUpPageProps> = ({
-  setUserData,
+  //setUserData,
   setCurrentModal,
 }) => {
   const url: string =
