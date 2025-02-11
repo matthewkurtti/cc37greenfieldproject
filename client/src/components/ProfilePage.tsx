@@ -33,6 +33,7 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
           <p>{loggedInUser.country}</p>
         </>
       )}
+
       <button
         type="button"
         onClick={async () => {

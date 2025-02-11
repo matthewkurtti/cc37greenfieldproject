@@ -1,5 +1,6 @@
 import React, { useState, FormEvent } from 'react';
 import { postData } from '../helpers/fetchHelpers';
+import { randomName } from '../helpers/randomName';
 
 import './LogInPage.css';
 
@@ -55,7 +56,7 @@ const LogInPage: React.FC<LogInPageProps> = ({ setCurrentModal }) => {
         </label>
         <input
           type="text"
-          placeholder="Coolguy Beatmaker"
+          placeholder={randomName()}
           value={username}
           onChange={(e) => setUsername(e.target.value)} // handles updating / changing username
           autoFocus

@@ -49,8 +49,6 @@ app.get('/api/user', async (req, res) => {
       .from('users')
       .limit(100);
 
-    console.log('USERS', users);
-
     res.json({ users });
   } catch (error) {
     console.error('Database connection error:', error);
@@ -67,6 +65,7 @@ app.get('/api/user/:id', async (req, res) => {
       .from('users')
       .where('id', id)
       .first();
+
     res.json(user);
   } catch (error) {
     console.error('Database connection error:', error);
@@ -79,6 +78,8 @@ app.delete('/api/user/:id', async (req, res) => {
   try {
     const id = req.params.id;
     await knex('users').where('id', id).del();
+
+    res.status(204);
     res.json({ message: 'Delete route is working correctly.' });
   } catch (error) {
     console.error('Database connection error.', error);
@@ -91,6 +92,7 @@ app.delete('/api/user/:id', async (req, res) => {
 app.get('/api/project', async (req, res) => {
   try {
     const projects = await knex.select('*').from('projects').limit(100);
+
     res.json(projects);
   } catch (error) {
     console.error('Database connection error:', error);
@@ -107,6 +109,7 @@ app.get('/api/project/:id', async (req, res) => {
       .from('projects')
       .where('id', id)
       .first();
+
     res.json(project);
   } catch (error) {
     console.error('Database connection error:', error);
@@ -127,6 +130,7 @@ app.post('/api/project/create/:id', async (req, res) => {
       user_id: userId,
       project_id: projectId[0].id,
     });
+
     res.json({ userId: userId, projectId: projectId[0].id });
   } catch (error) {
     console.error('Database connection error:', error);
@@ -179,7 +183,7 @@ app.get('/api/project/:projectId/member', async (req, res) => {
 
     res.json(members);
   } catch (error) {
-    console.error('Database connection error:', error);
+    console.error('Error fetching members:', error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -191,6 +195,7 @@ app.get('/api/project/:projectId/stem', async (req, res) => {
     const stems = await knex('stems')
       .where({ project_id: projectId })
       .select('*');
+
     res.json(stems);
   } catch (error) {
     console.error('Error fetching stems:', error);
@@ -203,6 +208,8 @@ app.delete('/api/stem/:id', async (req, res) => {
   try {
     const id = req.params.id;
     await knex('stems').where('id', id).del();
+
+    res.status(204);
     res.json({ message: 'Stem successfully deleted.' });
   } catch (error) {
     console.error('Database connection error.', error);
@@ -278,6 +285,7 @@ app.get('/api/auth/user', (req, res) => {
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
+
       res.json(user);
     })
     .catch((error) => {
@@ -293,6 +301,7 @@ app.get('/api/auth/logout', (req, res) => {
     if (err) {
       return res.status(500).json({ error: 'Failed to logout' });
     }
+
     res.json({ message: 'Logout  successful' });
   });
 });
