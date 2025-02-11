@@ -57,6 +57,10 @@ main {
   font-family: var(--block-text);
 }
 
+.accent-pink {
+  color: var(--primary-accent-color);
+}
+
 .news-feed {
   width: 95%;
   max-width: 1200px;

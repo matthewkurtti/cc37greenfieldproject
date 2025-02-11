@@ -1,12 +1,13 @@
 import { useState, FormEvent } from 'react';
 import { getData, postData } from '../helpers/fetchHelpers';
-
+import { randomName } from '../helpers/randomName';
+import { User } from '../globalTypes';
 import LogInPage from '../components/LogInPage';
 
 import './SignUpPage.css';
 
 type SignUpPageProps = {
-  setUserData: React.Dispatch<React.SetStateAction<object | null>>;
+  setUserData: React.Dispatch<React.SetStateAction<User[] | null>>;
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 };
 
@@ -23,48 +24,6 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
   const [homeCity, setHomeCity] = useState<string>('');
   const [homeCountry, setHomeCountry] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-  // --
-
-  const firstNames: string[] = [
-    'Aria',
-    'Lyria',
-    'Sonny',
-    'Miles',
-    'Cadence',
-    'Viola',
-    'Jazzlyn',
-    'Allegra',
-    'Harmony',
-    'Rocco',
-  ];
-
-  const lastNames: string[] = [
-    'Bachman',
-    'Reed',
-    'Chordia',
-    'Rollins',
-    'Dion',
-    'Winehouse',
-    'Harmon',
-    'Chorale',
-    'Sonata',
-    'Elegia',
-  ];
-
-  const randomName = (first: string[], last: string[]) => {
-    let randomNumberFirstName: number = Math.floor(
-      Math.random() * firstNames.length
-    );
-    let randomNumberSecondName: number = Math.floor(
-      Math.random() * firstNames.length
-    );
-
-    let randomFirstName: string = first[randomNumberFirstName];
-    let randomLastName: string = last[randomNumberSecondName];
-
-    return `${randomFirstName} ${randomLastName}`;
-  };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -100,7 +59,7 @@ const SignUpPage: React.FC<SignUpPageProps> = ({
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)} // sets the value of 'username' to this field on change
-          placeholder={randomName(firstNames, lastNames)}
+          placeholder={randomName()}
           autoFocus
         />
 

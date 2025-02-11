@@ -5,26 +5,13 @@ import { faTrashCan } from '@fortawesome/free-regular-svg-icons';
 import { faDownload } from '@fortawesome/free-solid-svg-icons/faDownload';
 import { faUpload } from '@fortawesome/free-solid-svg-icons/faUpload';
 import './ProjectPage.css';
-import { Project, User } from '../globalTypes';
+import { Project, User, Stem, Member } from '../globalTypes';
 import { deleteData, getData } from '../helpers/fetchHelpers';
 
 type ProjectPageProps = {
   project: Project;
   loggedInUser: User | null;
 };
-
-interface Member {
-  id: number;
-  username: string;
-}
-
-interface Stem {
-  id: number;
-  stem_name: string;
-  url: string;
-  project_id: number;
-  api_id: string;
-}
 
 const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
   // changes database target URL depending on current environment
@@ -48,6 +35,7 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
     return false;
   };
 
+  // checks to see if the logged in user can contribute to this project
   const isMember = () => {
     if (loggedInUser) {
       if (members.some((member) => member.id === loggedInUser.id)) {
@@ -60,11 +48,6 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
   };
 
   useEffect(() => {
-    console.log('MEMBER DATA', members);
-  });
-
-  useEffect(() => {
-    console.log('FETCHING DATA IN PROJECT');
     // Fetch members and stems for the project
     const fetchProjectData = async () => {
       try {
@@ -110,11 +93,9 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
       });
 
       const data = await response.json();
-      console.log('DATA', data);
 
       if (response.ok) {
         setMessage('File uploaded successfully');
-        console.log('Uploaded file:', data.stem);
         setStems((prevStems) => [...prevStems, data.stem]);
       } else {
         setMessage(data.message);
@@ -155,6 +136,7 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
     <div className="project-page">
       <h2>{project.project_name}</h2>
       <p>{project.description}</p>
+
       <div>
         <h3>Members</h3>
         <ul>
@@ -172,6 +154,7 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
           ))}
         </ul>
       </div>
+
       <div>
         <h3>Stems</h3>
         <ul>
@@ -203,7 +186,6 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
                     )}
                   </div>
                 </div>
-
                 <iframe
                   src={`https://drive.google.com/file/d/${stem.api_id}/preview`}
                 ></iframe>
@@ -214,6 +196,7 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
           )}
         </ul>
       </div>
+
       {isMember() && (
         <form id="uploadForm" onSubmit={handleFileUpload}>
           {/* handles uploading a stem to the current project */}

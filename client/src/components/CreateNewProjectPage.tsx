@@ -27,8 +27,6 @@ const CreateNewProjectPage = ({
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    console.log(loggedInUser);
-
     // basic validation for required fields
     if (!projectName) {
       setErrorMessage('Please fill in all required fields');
@@ -77,7 +75,6 @@ const CreateNewProjectPage = ({
             onChange={(e) => setProjectDescription(e.target.value)} // sets the value of 'project-description' to this field on change
             placeholder="Tell us about your project..."
           ></textarea>
-          {/* TODO convert to a text field instead of text box */}
           <button type="submit">Create Your New Jam!</button>
           {errorMessage && <p className="error-message">{errorMessage}</p>}
         </form>

@@ -10,7 +10,6 @@ type ModalProps = {
 };
 
 // handles displaying a modal popup when the user intacts with main page elements
-
 const Modal = ({ currentModal, setCurrentModal }: ModalProps) => {
   return (
     <div className="modal">
