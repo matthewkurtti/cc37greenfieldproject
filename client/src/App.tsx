@@ -24,7 +24,7 @@ function App() {
   const url: string =
     import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/'; // sets database target URL based on current environment
 
-  const [userData, setUserData] = useState<User[] | null>(null);
+  //const [userData, setUserData] = useState<User[] | null>(null);
 
   const [projectData, setProjectData] = useState<Project[] | null>(null); // ensures that projectData is either an array of project data or null
 
@@ -51,8 +51,8 @@ function App() {
 
     // pulls all data from the database
     (async () => {
-      const userResult = await getData(url, 'api/user');
-      setUserData(userResult);
+      //const userResult = await getData(url, 'api/user');
+      //setUserData(userResult);
 
       const projectResult = await getData(url, 'api/project');
       setProjectData(projectResult);
@@ -119,7 +119,7 @@ function App() {
                     onClick={() =>
                       setCurrentModal(
                         <SignUpPage
-                          setUserData={setUserData}
+                          //setUserData={setUserData}
                           setCurrentModal={setCurrentModal}
                         />
                       )
