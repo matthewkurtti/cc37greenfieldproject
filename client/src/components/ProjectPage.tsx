@@ -181,24 +181,26 @@ const ProjectPage = ({ project, loggedInUser }: ProjectPageProps) => {
                 <div className="stem">
                   <p className="stem-name">{stem.stem_name}</p>
                   <div className="controls">
-                    <a href={stem.url} download={stem.stem_name}>
+                    <a href={stem.url} download>
                       <button className="icon-btn">
                         <FontAwesomeIcon icon={faDownload} />
                       </button>
                     </a>
-                    <button
-                      className="icon-btn"
-                      onClick={async () => {
-                        await deleteData(url, `api/stem`, stem.id);
-                        const result = await getData(
-                          url,
-                          `api/project/${project.id}/stem`
-                        );
-                        setStems(result);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={faTrashCan} />
-                    </button>
+                    {isMember() && (
+                      <button
+                        className="icon-btn"
+                        onClick={async () => {
+                          await deleteData(url, `api/stem`, stem.id);
+                          const result = await getData(
+                            url,
+                            `api/project/${project.id}/stem`
+                          );
+                          setStems(result);
+                        }}
+                      >
+                        <FontAwesomeIcon icon={faTrashCan} />
+                      </button>
+                    )}
                   </div>
                 </div>
 

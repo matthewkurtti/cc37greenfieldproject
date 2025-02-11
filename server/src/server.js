@@ -44,7 +44,7 @@ app.use(
 // "get" endpoint (get all users)
 app.get('/api/user', async (req, res) => {
   try {
-    const [users] = await knex
+    const users = await knex
       .select('id', 'username', 'city', 'country')
       .from('users')
       .limit(100);
@@ -318,7 +318,7 @@ app.post('/api/user/upload', upload.single('file'), async (req, res) => {
     const [newStem] = await knex('stems')
       .insert({
         stem_name: file.originalname,
-        url: publicUrl.webViewLink,
+        url: publicUrl.webContentLink,
         project_id: parseInt(project_id, 10),
         api_id: uploadedFile.id,
       })

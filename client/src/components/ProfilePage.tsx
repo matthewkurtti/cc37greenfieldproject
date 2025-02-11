@@ -42,7 +42,11 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
       >
         Log Out{' '}
         <span className="nav-icon">
-          <FontAwesomeIcon icon={faRightToBracket} />
+          <FontAwesomeIcon
+            icon={faRightToBracket}
+            size="lg"
+            flip="horizontal"
+          />
         </span>
       </button>
     </div>

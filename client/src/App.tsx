@@ -160,7 +160,7 @@ function App() {
                   >
                     Login{' '}
                     <span className="nav-icon">
-                      <FontAwesomeIcon icon={faRightToBracket} />
+                      <FontAwesomeIcon icon={faRightToBracket} size="lg" />
                     </span>
                   </button>
                 </li>
