@@ -19,21 +19,33 @@ const Drive = google.drive({
 
 async function uploadFile(filePath, fileName) {
   try {
+    //handle different type of file
+    const fileExtension = fileName.split(".").pop().toLowerCase();
+    const mimeTypes = {
+      //image file
+      jpg: "image/jpeg",
+      jpeg: "image/jpeg",
+      png: "image/png",
+      //audio file
+      mp3: "audio/mpeg",
+      wav: "audio/wav",
+    };
+    if (mimeTypes[fileExtension] === undefined) {
+      throw new Error("Invalid file type");
+    }
     const response = await Drive.files.create({
       requestBody: {
         name: fileName,
-        mimeType: "audio/mpeg",
+        mimeType: mimeTypes[fileExtension],
       },
       media: {
-        mimeType: "audio/mpeg",
+        mimeType: mimeTypes[fileExtension],
         body: fs.createReadStream(filePath),
       },
     });
-
-    console.log(response.data);
     return response.data;
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
     throw error;
   }
 }
@@ -58,12 +70,11 @@ async function generatePublicUrl(fileId) {
         type: "anyone",
       },
     });
-
+    console.log(fileId);
     const result = await Drive.files.get({
       fileId: fileId,
       fields: "webViewLink, webContentLink",
     });
-    console.log(result.data);
     return result.data;
   } catch (error) {
     console.log(error.message);

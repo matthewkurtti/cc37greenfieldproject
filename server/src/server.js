@@ -335,7 +335,6 @@ app.post("/api/user/upload", upload.single("file"), async (req, res) => {
     const uploadedFile = await uploadFile(file.path, file.originalname);
     // Generate a public URL for the uploaded file
     const publicUrl = await generatePublicUrl(uploadedFile.id);
-
     // Store the file ID and URL in the stems table
     const [newStem] = await knex("stems")
       .insert({
@@ -355,7 +354,7 @@ app.post("/api/user/upload", upload.single("file"), async (req, res) => {
   }
 });
 
-app.post("/api/user/profile/image", upload.single("file"), (req, res) => {
+app.post("/api/user/profile/image", upload.single("file"), async (req, res) => {
   try {
     //destructure req.file and req.body
     const { file } = req;
@@ -363,8 +362,22 @@ app.post("/api/user/profile/image", upload.single("file"), (req, res) => {
     if (!file) {
       return res.status(400).json({ message: "No image uploaded" });
     }
-    // Upload image to Google Drive
     console.log(file.originalname);
+    // Upload image to Google Drive
+    const uploadedImg = await uploadFile(file.path, file.originalname);
+    //use id get url to display in frontend
+    const publicUrl = await generatePublicUrl(uploadedImg.id);
+
+    const [newProfileImgUrl] = await knex("users")
+      .where("id", user_id)
+      .update({
+        profile_img_url: publicUrl,
+      })
+      .returning(["id", "profile_img_url"]);
+    res.status(201).json({
+      message: "Profile image uploaded successfully",
+      profileImgUrl: newProfileImgUrl,
+    });
   } catch (error) {
     console.error("Profile image upload error:", error);
     res.status(500).json({ error: error.message });
