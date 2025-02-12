@@ -1,9 +1,10 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 import { getData } from "../helpers/fetchHelpers";
-import { User } from "../globalTypes";
+import { User, Project } from "../globalTypes";
 import "./ProfilePage.css";
 import avatar from "../assets/avatar.png";
+import { useState, useEffect } from "react";
 
 type ProfilePageProps = {
   loggedInUser: User | null;
@@ -11,12 +12,40 @@ type ProfilePageProps = {
 };
 
 const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
+  const [isVisible, setIsVisible] = useState<boolean>(false);
+  const [projectContributions, setProjectContribution] = useState<
+    Project[] | null
+  >(null);
+
   // changes database target URL depending on current environment
   const url: string =
     import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/";
-  //make random test change
-  const testValue = null;
-  //
+
+  // sends a fetch request to the backend to get all projects the logged in user is a part of
+  const handleGetAllUserProjectContributions = async () => {
+    // if LoggedInUser is null , don't fetch
+    if (!loggedInUser) return;
+
+    // didn't want to mess with the helper fetcher functions,
+    // since I would have to refactor it to accept my request
+    try {
+      const contributedProjectsResponse = await fetch(
+        `${url}api/project/${loggedInUser.id}/projects`
+      );
+
+      const contributedProjects = await contributedProjectsResponse.json();
+      console.log(contributedProjects); // to be deleted
+      setProjectContribution(contributedProjects);
+    } catch (error) {
+      console.error("Error fetching projects:", error);
+    }
+  };
+
+  // when profile is initialized, call handler
+  useEffect(() => {
+    handleGetAllUserProjectContributions();
+  }, []);
+
   return (
     <div className='profile-page'>
       <h2>PROFILE</h2>

@@ -203,7 +203,7 @@ app.get('/api/project/:projectId/member', async (req, res) => {
 });
 
 // GET /api/project/:userId (get all projects from a user) by Garett
-app.get('/api/project/:userId', async (req, res) => {
+app.get('/api/project/:userId/projects', async (req, res) => {
   try {
     const userId = req.params.userId;
     let contributedProjects = await knex('projects')
