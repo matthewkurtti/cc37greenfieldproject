@@ -1,28 +1,29 @@
-import { useState, useEffect } from 'react';
-import { getData } from './helpers/fetchHelpers';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faRightToBracket } from '@fortawesome/free-solid-svg-icons';
+import { useState, useEffect } from "react";
+import { getData } from "./helpers/fetchHelpers";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
 
 // types
-import { User, Project } from './globalTypes';
+import { User, Project } from "./globalTypes";
 
+// test test test
 // components
-import ProjectItem from './components/ProjectItem';
-import ProfilePage from './components/ProfilePage';
-import CreateNewProjectPage from './components/CreateNewProjectPage';
-import SignUpPage from './components/SignUpPage';
-import LogInPage from './components/LogInPage';
-import Modal from './components/Modal';
+import ProjectItem from "./components/ProjectItem";
+import ProfilePage from "./components/ProfilePage";
+import CreateNewProjectPage from "./components/CreateNewProjectPage";
+import SignUpPage from "./components/SignUpPage";
+import LogInPage from "./components/LogInPage";
+import Modal from "./components/Modal";
 
 // images
-import logo from './assets/sc_logo_regular_dark.png';
+import logo from "./assets/sc_logo_regular_dark.png";
 
 // styles
-import './App.css';
+import "./App.css";
 
 function App() {
   const url: string =
-    import.meta.env.MODE === 'development' ? 'http://localhost:8080/' : '/'; // sets database target URL based on current environment
+    import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/"; // sets database target URL based on current environment
 
   //const [userData, setUserData] = useState<User[] | null>(null);
 
@@ -33,11 +34,11 @@ function App() {
 
   // check to see if the user has a valid session token on page load
   const checkIfLoggedIn = async () => {
-    const result = await getData(url, 'api/auth/user');
+    const result = await getData(url, "api/auth/user");
 
     if (
-      result.message === 'Unauthorized' ||
-      result.message === 'User not found'
+      result.message === "Unauthorized" ||
+      result.message === "User not found"
     ) {
       setLoggedInUser(null);
     } else {
@@ -54,7 +55,7 @@ function App() {
       //const userResult = await getData(url, 'api/user');
       //setUserData(userResult);
 
-      const projectResult = await getData(url, 'api/project');
+      const projectResult = await getData(url, "api/project");
       setProjectData(projectResult);
     })();
   }, []);
@@ -72,15 +73,15 @@ function App() {
       )}
 
       <header>
-        <img className="logo" src={logo} alt="SoundCrowd's Logo" />
+        <img className='logo' src={logo} alt="SoundCrowd's Logo" />
         <nav>
           <ul>
             {loggedInUser ? (
               <>
                 <li>
                   <button
-                    className="action-call"
-                    type="button"
+                    className='action-call'
+                    type='button'
                     onClick={() =>
                       setCurrentModal(
                         <CreateNewProjectPage
@@ -96,7 +97,7 @@ function App() {
                 </li>
                 <li>
                   <button
-                    type="button"
+                    type='button'
                     onClick={() =>
                       setCurrentModal(
                         <ProfilePage
@@ -114,8 +115,8 @@ function App() {
               <>
                 <li>
                   <button
-                    className="action-call"
-                    type="button"
+                    className='action-call'
+                    type='button'
                     onClick={() =>
                       setCurrentModal(
                         <SignUpPage
@@ -130,16 +131,16 @@ function App() {
                 </li>
                 <li>
                   <button
-                    type="button"
+                    type='button'
                     onClick={() =>
                       setCurrentModal(
                         <LogInPage setCurrentModal={setCurrentModal} />
                       )
                     }
                   >
-                    Login{' '}
-                    <span className="nav-icon">
-                      <FontAwesomeIcon icon={faRightToBracket} size="lg" />
+                    Login{" "}
+                    <span className='nav-icon'>
+                      <FontAwesomeIcon icon={faRightToBracket} size='lg' />
                     </span>
                   </button>
                 </li>
@@ -151,28 +152,28 @@ function App() {
 
       <main>
         {loggedInUser ? (
-          <section className="user-logged-in-hero">
-            <h2 className="frontpage-hero-title">
-              Hello,{' '}
-              <span className="user-logged-in-name">
+          <section className='user-logged-in-hero'>
+            <h2 className='frontpage-hero-title'>
+              Hello,{" "}
+              <span className='user-logged-in-name'>
                 {loggedInUser.username}
               </span>
-              <span className="frontpage-hero-title">!</span>
+              <span className='frontpage-hero-title'>!</span>
             </h2>
           </section>
         ) : (
-          <section className="user-not-logged-in-hero">
-            <h2 className="frontpage-hero-title">
-              Welcome to <span className="logo-green">Sound</span>Crowd
+          <section className='user-not-logged-in-hero'>
+            <h2 className='frontpage-hero-title'>
+              Welcome to <span className='logo-green'>Sound</span>Crowd
             </h2>
-            <h3 className="frontpage-hero-subtitle">
+            <h3 className='frontpage-hero-subtitle'>
               We can't wait to hear from you
-              <span className="accent-pink">.</span>
+              <span className='accent-pink'>.</span>
             </h3>
           </section>
         )}
 
-        <section className="news-feed">
+        <section className='news-feed'>
           <h2>Recent Projects</h2>
           <ul>
             {projectData &&
