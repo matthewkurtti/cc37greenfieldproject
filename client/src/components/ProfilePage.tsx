@@ -22,6 +22,7 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
         <>
           <img className="avatar" src={avatar} alt="Your profile picture" />
           <button>Upload Profile Pic</button>
+          <input type="file" />
           <label>USERNAME</label>
           <p>{loggedInUser.username}</p>
           {loggedInUser.city && (
