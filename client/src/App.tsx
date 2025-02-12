@@ -73,15 +73,15 @@ function App() {
       )}
 
       <header>
-        <img className='logo' src={logo} alt="SoundCrowd's Logo" />
+        <img className="logo" src={logo} alt="SoundCrowd's Logo" />
         <nav>
           <ul>
             {loggedInUser ? (
               <>
                 <li>
                   <button
-                    className='action-call'
-                    type='button'
+                    className="action-call"
+                    type="button"
                     onClick={() =>
                       setCurrentModal(
                         <CreateNewProjectPage
@@ -97,7 +97,7 @@ function App() {
                 </li>
                 <li>
                   <button
-                    type='button'
+                    type="button"
                     onClick={() =>
                       setCurrentModal(
                         <ProfilePage
@@ -115,8 +115,8 @@ function App() {
               <>
                 <li>
                   <button
-                    className='action-call'
-                    type='button'
+                    className="action-call"
+                    type="button"
                     onClick={() =>
                       setCurrentModal(
                         <SignUpPage
@@ -131,7 +131,7 @@ function App() {
                 </li>
                 <li>
                   <button
-                    type='button'
+                    type="button"
                     onClick={() =>
                       setCurrentModal(
                         <LogInPage setCurrentModal={setCurrentModal} />
@@ -139,8 +139,8 @@ function App() {
                     }
                   >
                     Login{" "}
-                    <span className='nav-icon'>
-                      <FontAwesomeIcon icon={faRightToBracket} size='lg' />
+                    <span className="nav-icon">
+                      <FontAwesomeIcon icon={faRightToBracket} size="lg" />
                     </span>
                   </button>
                 </li>
@@ -152,28 +152,28 @@ function App() {
 
       <main>
         {loggedInUser ? (
-          <section className='user-logged-in-hero'>
-            <h2 className='frontpage-hero-title'>
+          <section className="user-logged-in-hero">
+            <h2 className="frontpage-hero-title">
               Hello,{" "}
-              <span className='user-logged-in-name'>
+              <span className="user-logged-in-name">
                 {loggedInUser.username}
               </span>
-              <span className='frontpage-hero-title'>!</span>
+              <span className="frontpage-hero-title">!</span>
             </h2>
           </section>
         ) : (
-          <section className='user-not-logged-in-hero'>
-            <h2 className='frontpage-hero-title'>
-              Welcome to <span className='logo-green'>Sound</span>Crowd
+          <section className="user-not-logged-in-hero">
+            <h2 className="frontpage-hero-title">
+              Welcome to <span className="logo-green">Sound</span>Crowd
             </h2>
-            <h3 className='frontpage-hero-subtitle'>
+            <h3 className="frontpage-hero-subtitle">
               We can't wait to hear from you
-              <span className='accent-pink'>.</span>
+              <span className="accent-pink">.</span>
             </h3>
           </section>
         )}
 
-        <section className='news-feed'>
+        <section className="news-feed">
           <h2>Recent Projects</h2>
           <ul>
             {projectData &&

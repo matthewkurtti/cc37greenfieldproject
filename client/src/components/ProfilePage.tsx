@@ -50,8 +50,12 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
   };
 
   useEffect(() => {
-    // await helper function to get url returned from backend;
+    setImgUrl(loggedInUser ? loggedInUser.profile_img_url : null);
   }, []);
+  useEffect(() => {
+    // await helper function to get url returned from backend;
+    console.log(loggedInUser);
+  }, [imgUrl]);
 
   return (
     <div className="profile-page">

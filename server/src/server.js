@@ -61,7 +61,7 @@ app.get("/api/user/:id", async (req, res) => {
   try {
     const id = req.params.id;
     const user = await knex
-      .select("id", "username", "city", "country")
+      .select("id", "username", "city", "country", "profile_img_url")
       .from("users")
       .where("id", id)
       .first();
@@ -292,7 +292,7 @@ app.get("/api/auth/user", (req, res) => {
     return res.status(401).json({ message: "Unauthorized" });
   }
   knex("users")
-    .select("id", "username", "city", "country")
+    .select("id", "username", "city", "country", "profile_img_url")
     .where({ id: req.session.userId })
     .first()
     .then((user) => {
@@ -367,13 +367,14 @@ app.post("/api/user/profile/image", upload.single("file"), async (req, res) => {
     const uploadedImg = await uploadFile(file.path, file.originalname);
     //use id get url to display in frontend
     const publicUrl = await generatePublicUrl(uploadedImg.id);
-
+    //update profile img url in users table
     const [newProfileImgUrl] = await knex("users")
       .where("id", user_id)
       .update({
         profile_img_url: publicUrl,
       })
       .returning(["id", "profile_img_url"]);
+    //send response
     res.status(201).json({
       message: "Profile image uploaded successfully",
       profileImgUrl: newProfileImgUrl,

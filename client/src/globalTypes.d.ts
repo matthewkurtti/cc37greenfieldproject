@@ -3,6 +3,7 @@ export interface User {
   username: string;
   city: string;
   country: string;
+  profile_img_url: string;
 }
 
 export interface Project {
