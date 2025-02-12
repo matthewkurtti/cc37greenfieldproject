@@ -13,9 +13,9 @@
 .content {
   position: relative;
   width: 90%;
-  height: 80%;
+  height: 85%;
   max-width: 800px;
-  max-height: 105dvh;
+  max-height: 100dvh;
   padding: 30px;
   background-color: #8ececc;
   border-radius: 10px;

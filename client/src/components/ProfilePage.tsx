@@ -18,13 +18,13 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
   const testValue = null;
   //
   return (
-    <div className="profile-page">
+    <div className='profile-page'>
       <h2>PROFILE</h2>
       {loggedInUser && (
         <>
-          <img className="avatar" src={avatar} alt="Your profile picture" />
+          <img className='avatar' src={avatar} alt='Your profile picture' />
           <button>Upload Profile Pic</button>
-          <input type="file" />
+          <input type='file' />
           <label>USERNAME</label>
           <p>{loggedInUser.username}</p>
           {loggedInUser.city && (
@@ -35,22 +35,26 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
           )}
           <label>COUNTRY</label>
           <p>{loggedInUser.country}</p>
+          {/* 
+          add project contribution here. 
+          Drop down list of projects that the user is a part of 
+          */}
         </>
       )}
 
       <button
-        type="button"
+        type='button'
         onClick={async () => {
           await getData(url, "api/auth/logout");
           setCurrentModal(null);
         }}
       >
         Log Out{" "}
-        <span className="nav-icon">
+        <span className='nav-icon'>
           <FontAwesomeIcon
             icon={faRightToBracket}
-            size="lg"
-            flip="horizontal"
+            size='lg'
+            flip='horizontal'
           />
         </span>
       </button>

@@ -202,6 +202,24 @@ app.get('/api/project/:projectId/member', async (req, res) => {
   }
 });
 
+// GET /api/project/:userId (get all projects from a user) by Garett
+app.get('/api/project/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    let contributedProjects = await knex('projects')
+      .select('projects.*') // get all colums in the project table 
+      .join('user_projects', 'projects.id', 'user_projects.project_id')
+      .where('user_projects.user_id', userId)
+
+    // response with an array of all contributed projects of a user
+    res.status(200).json(contributedProjects);
+  } catch (error) {
+    console.error('Error fetching projects:', error);
+    res.status(500).json({ error: error.message });
+
+  }
+})
+
 // GET /api/project/:projectId/stems (get all stems of given project)
 app.get('/api/project/:projectId/stem', async (req, res) => {
   const { projectId } = req.params;
