@@ -79,13 +79,22 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
             </button>
 
             {/* will make drop down only is state visiable is true and projectContribution is not null */}
-            <ul className='profile-project-contribution-list'>
+            <ul
+              // 2nd classname based on isVisible state
+              className={`profile-project-contribution-list ${
+                isVisible ? "show" : "hide"
+              }`}
+            >
               {isVisible &&
                 projectContributions &&
-                projectContributions.map((project) => (
+                projectContributions.map((project, index) => (
                   <li
                     className='project-item'
                     key={project.id}
+                    // adding a delay variable to each project li (for animation)
+                    style={
+                      { "--delay": index.toString() } as React.CSSProperties
+                    }
                     onClick={() =>
                       setCurrentModal(
                         <ProjectPage
