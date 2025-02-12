@@ -14,7 +14,9 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
   // changes database target URL depending on current environment
   const url: string =
     import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/";
-
+  //make random test change
+  const testValue = null;
+  //
   return (
     <div className="profile-page">
       <h2>PROFILE</h2>
