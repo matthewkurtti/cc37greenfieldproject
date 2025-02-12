@@ -37,6 +37,7 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
       {loggedInUser && (
         <>
           <img className="avatar" src={avatar} alt="Your profile picture" />
+          {/* the btn triggers input */}
           <input
             type="file"
             accept="image/*"
