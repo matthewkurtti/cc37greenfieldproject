@@ -5,6 +5,7 @@ import { User, Project } from "../globalTypes";
 import "./ProfilePage.css";
 import avatar from "../assets/avatar.png";
 import { useState, useEffect } from "react";
+import ProjectPage from "./ProjectPage";
 
 type ProfilePageProps = {
   loggedInUser: User | null;
@@ -68,6 +69,37 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
           add project contribution here. 
           Drop down list of projects that the user is a part of 
           */}
+          <div className='profile-project-contribution'>
+            <h3> Project contribution </h3>
+            <button
+              onClick={() => setIsVisible(!isVisible)}
+              className='drop-down'
+            >
+              {isVisible ? "Hide" : "Show"}
+            </button>
+
+            {/* will make drop down only is state visiable is true and projectContribution is not null */}
+            <ul className='profile-project-contribution-list'>
+              {isVisible &&
+                projectContributions &&
+                projectContributions.map((project) => (
+                  <li
+                    key={project.id}
+                    onClick={() =>
+                      setCurrentModal(
+                        <ProjectPage
+                          project={project}
+                          loggedInUser={loggedInUser}
+                        />
+                      )
+                    }
+                  >
+                    {/* project name is what will be visible in the list and clickable */}
+                    {project.project_name}
+                  </li>
+                ))}
+            </ul>
+          </div>
         </>
       )}
 
