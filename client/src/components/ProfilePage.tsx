@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
-import { getData } from "../helpers/fetchHelpers";
+import { getData, postData } from "../helpers/fetchHelpers";
 import { User } from "../globalTypes";
 import "./ProfilePage.css";
 import avatar from "../assets/avatar.png";
@@ -18,34 +18,61 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
   // changes database target URL depending on current environment
   const url: string =
     import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/";
-
-  //store profile images uploaded by user
+  // trigger input through btn
   const clickRef = useRef<HTMLInputElement>(null);
-  const [profileImg, setProfileImg] = useState<File | null>(null);
-
-  const handleImgUpload = (e: ChangeEvent<HTMLInputElement>) => {
-    setProfileImg(e.target.files ? e.target.files[0] : null);
+  //store profile images uploaded by user
+  //img display url
+  const [imgUrl, setImgUrl] = useState<string | null>(null);
+  //handle upload
+  const handleImgUpload = async (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+    const uploadedImg = e.target.files ? e.target.files[0] : null;
+    const formData = new FormData();
+    //send form data with image
+    if (uploadedImg && loggedInUser) {
+      formData.append("file", uploadedImg);
+      formData.append("user_id", loggedInUser?.id.toString());
+      try {
+        const response = await fetch(`${url}api/user/profile/image`, {
+          method: "POST",
+          body: formData,
+          credentials: "include",
+        });
+        const profileImgUrlResponse = await response.json();
+        if (response.ok) {
+          //set image url if exists
+          setImgUrl(profileImgUrlResponse.profileImgUrl);
+        }
+      } catch (error) {
+        console.error("Error:", error);
+      }
+    }
   };
 
   useEffect(() => {
-    console.log(profileImg);
-  }, [profileImg]);
+    // await helper function to get url returned from backend;
+  }, []);
 
   return (
     <div className="profile-page">
       <h2>PROFILE</h2>
       {loggedInUser && (
         <>
-          <img className="avatar" src={avatar} alt="Your profile picture" />
+          <img
+            className="avatar"
+            src={imgUrl ? imgUrl : avatar}
+            alt="Your profile picture"
+          />
           {/* the btn triggers input */}
           <input
+            id="upload-img-input"
             type="file"
             accept="image/*"
             ref={clickRef}
             onChange={(e) => handleImgUpload(e)}
           />
           <button
-            id="upload-img"
+            id="upload-img-btn"
             onClick={() => {
               clickRef.current?.click();
             }}
