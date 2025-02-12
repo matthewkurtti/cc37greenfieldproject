@@ -4,6 +4,10 @@ import { getData } from "../helpers/fetchHelpers";
 import { User } from "../globalTypes";
 import "./ProfilePage.css";
 import avatar from "../assets/avatar.png";
+import { ChangeEvent, useEffect } from "react";
+import React from "react";
+import { useState, useRef } from "react";
+import AvatarEditor from "react-avatar-editor";
 
 type ProfilePageProps = {
   loggedInUser: User | null;
@@ -15,14 +19,38 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
   const url: string =
     import.meta.env.MODE === "development" ? "http://localhost:8080/" : "/";
 
+  //store profile images uploaded by user
+  const clickRef = useRef<HTMLInputElement>(null);
+  const [profileImg, setProfileImg] = useState<File | null>(null);
+
+  const handleImgUpload = (e: ChangeEvent<HTMLInputElement>) => {
+    setProfileImg(e.target.files ? e.target.files[0] : null);
+  };
+
+  useEffect(() => {
+    console.log(profileImg);
+  }, [profileImg]);
+
   return (
     <div className="profile-page">
       <h2>PROFILE</h2>
       {loggedInUser && (
         <>
           <img className="avatar" src={avatar} alt="Your profile picture" />
-          <button>Upload Profile Pic</button>
-          <input type="file" />
+          <input
+            type="file"
+            accept="image/*"
+            ref={clickRef}
+            onChange={(e) => handleImgUpload(e)}
+          />
+          <button
+            id="upload-img"
+            onClick={() => {
+              clickRef.current?.click();
+            }}
+          >
+            Upload Profile Pic
+          </button>
           <label>USERNAME</label>
           <p>{loggedInUser.username}</p>
           {loggedInUser.city && (
