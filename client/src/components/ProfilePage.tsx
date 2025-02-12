@@ -65,26 +65,25 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
           )}
           <label>COUNTRY</label>
           <p>{loggedInUser.country}</p>
+
           {/* 
-          add project contribution here. 
+          add project contribution list. 
           Drop down list of projects that the user is a part of 
           */}
           <div className='profile-project-contribution-container'>
-            {/* <h3> Project contribution </h3> */}
             <button
               onClick={() => setIsVisible(!isVisible)}
               className='drop-down'
             >
               Project contribution
             </button>
-
-            {/* will make drop down only is state visiable is true and projectContribution is not null */}
             <ul
               // 2nd classname based on isVisible state
               className={`profile-project-contribution-list ${
                 isVisible ? "show" : "hide"
               }`}
             >
+              {/* drop down list => only if state visiable is true and projectContribution is not null */}
               {isVisible &&
                 projectContributions &&
                 projectContributions.map((project, index) => (
