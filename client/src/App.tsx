@@ -42,7 +42,7 @@ function App() {
     ) {
       setLoggedInUser(null);
     } else {
-      setLoggedInUser(result);
+      setLoggedInUser(result.user);
     }
   };
 
@@ -64,6 +64,7 @@ function App() {
   // checks for users logging in or out
   useEffect(() => {
     checkIfLoggedIn();
+    console.log(loggedInUser);
   }, [currentModal]);
 
   return (
@@ -188,6 +189,8 @@ function App() {
               ))}
           </ul>
         </section>
+        {/* Temporary fix to add a sapce to see the whole recent projects box ( height was added in App.css ) */}
+        <footer></footer>
       </main>
     </>
   );

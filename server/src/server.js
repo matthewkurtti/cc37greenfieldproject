@@ -58,6 +58,7 @@ app.get("/api/user", async (req, res) => {
 
 // "get" endpoint (get user by id)
 app.get("/api/user/:id", async (req, res) => {
+  //use that imgUrl to convert url into img, send base64
   try {
     const id = req.params.id;
     const user = await knex
@@ -66,6 +67,14 @@ app.get("/api/user/:id", async (req, res) => {
       .where("id", id)
       .first();
 
+    if (user.profile_img_url !== null) {
+      const downloadImgResponse = await fetch(user.profile_img_url, {
+        method: "GET",
+      });
+      const imgArrayBuffer = await downloadImgResponse.arrayBuffer();
+      const imgBase64 = Buffer.from(imgArrayBuffer).toString("base64");
+      user.profileImgBase64 = `data:image/*;base64,${imgBase64}`;
+    }
     res.json(user);
   } catch (error) {
     console.error("Database connection error:", error);
@@ -202,6 +211,23 @@ app.get("/api/project/:projectId/member", async (req, res) => {
   }
 });
 
+// GET /api/project/:userId (get all projects from a user) by Garett
+app.get("/api/project/:userId/projects", async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    let contributedProjects = await knex("projects")
+      .select("projects.*") // get all colums in the project table
+      .join("user_projects", "projects.id", "user_projects.project_id")
+      .where("user_projects.user_id", userId);
+
+    // response with an array of all contributed projects of a user
+    res.status(200).json(contributedProjects);
+  } catch (error) {
+    console.error("Error fetching projects:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // GET /api/project/:projectId/stems (get all stems of given project)
 app.get("/api/project/:projectId/stem", async (req, res) => {
   const { projectId } = req.params;
@@ -287,25 +313,32 @@ app.post("/api/auth/login", async (req, res) => {
 
 // Checks if a user is logged in
 // it (should fetch logged in users profile from database using the userId stored in the session)
-app.get("/api/auth/user", (req, res) => {
+app.get("/api/auth/user", async (req, res) => {
   if (!req.session.userId) {
     return res.status(401).json({ message: "Unauthorized" });
   }
-  knex("users")
-    .select("id", "username", "city", "country", "profile_img_url")
-    .where({ id: req.session.userId })
-    .first()
-    .then((user) => {
-      if (!user) {
-        return res.status(404).json({ message: "User not found" });
-      }
+  try {
+    const user = await knex("users")
+      .select("id", "username", "city", "country", "profile_img_url")
+      .where({ id: req.session.userId })
+      .first();
 
-      res.json(user);
-    })
-    .catch((error) => {
-      console.error("Database connection error.", error);
-      res.status(500).json({ error: error.message });
-    });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if (user.profile_img_url !== null) {
+      const downloadImgResponse = await fetch(user.profile_img_url, {
+        method: "GET",
+      });
+      const imgArrayBuffer = await downloadImgResponse.arrayBuffer();
+      const imgBase64 = Buffer.from(imgArrayBuffer).toString("base64");
+      user.profileImgBase64 = `data:image/*;base64,${imgBase64}`;
+    }
+    return res.json({ message: "Authorized", user: user });
+  } catch (error) {
+    console.error("Database connection error.", error);
+    res.status(500).json({ error: error.message });
+  }
 });
 
 // GET /api/auth/logout
@@ -362,7 +395,6 @@ app.post("/api/user/profile/image", upload.single("file"), async (req, res) => {
     if (!file) {
       return res.status(400).json({ message: "No image uploaded" });
     }
-    console.log(file.originalname);
     // Upload image to Google Drive
     const uploadedImg = await uploadFile(file.path, file.originalname);
     //use id get url to display in frontend
@@ -371,14 +403,24 @@ app.post("/api/user/profile/image", upload.single("file"), async (req, res) => {
     const [newProfileImgUrl] = await knex("users")
       .where("id", user_id)
       .update({
-        profile_img_url: publicUrl,
+        profile_img_url: publicUrl.webContentLink,
       })
       .returning(["id", "profile_img_url"]);
     //send response
-    res.status(201).json({
-      message: "Profile image uploaded successfully",
-      profileImgUrl: newProfileImgUrl,
-    });
+    if (newProfileImgUrl) {
+      const downloadImgResponse = await fetch(
+        newProfileImgUrl.profile_img_url,
+        {
+          method: "GET",
+        }
+      );
+      const imgArrayBuffer = await downloadImgResponse.arrayBuffer();
+      const imgBase64 = Buffer.from(imgArrayBuffer).toString("base64");
+      res.status(201).json({
+        message: "Profile image uploaded successfully",
+        image: `data:image/*;base64,${imgBase64}`,
+      });
+    }
   } catch (error) {
     console.error("Profile image upload error:", error);
     res.status(500).json({ error: error.message });

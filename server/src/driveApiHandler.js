@@ -45,7 +45,7 @@ async function uploadFile(filePath, fileName) {
     });
     return response.data;
   } catch (error) {
-    console.error(error.message);
+    // console.error(error.message);
     throw error;
   }
 }
@@ -57,7 +57,7 @@ async function deleteFile(fileId) {
     });
     console.log(response.data, response.status);
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
   }
 }
 
@@ -70,14 +70,13 @@ async function generatePublicUrl(fileId) {
         type: "anyone",
       },
     });
-    console.log(fileId);
     const result = await Drive.files.get({
       fileId: fileId,
       fields: "webViewLink, webContentLink",
     });
     return result.data;
   } catch (error) {
-    console.log(error.message);
+    console.error(error.message);
     throw error;
   }
 }
