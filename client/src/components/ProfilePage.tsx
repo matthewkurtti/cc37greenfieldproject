@@ -132,7 +132,7 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
               onClick={() => setIsVisible(!isVisible)}
               className="drop-down"
             >
-              Project contribution
+              Project Contribution
             </button>
             <ul
               // 2nd classname based on isVisible state

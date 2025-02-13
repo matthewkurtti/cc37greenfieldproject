@@ -64,7 +64,6 @@ function App() {
   // checks for users logging in or out
   useEffect(() => {
     checkIfLoggedIn();
-    console.log(loggedInUser);
   }, [currentModal]);
 
   return (
