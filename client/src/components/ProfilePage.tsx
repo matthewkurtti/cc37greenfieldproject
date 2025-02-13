@@ -95,7 +95,9 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
       <h2>PROFILE</h2>
       {loggedInUser && (
         <>
-          <img className="avatar" src={imgBase64 ? `${imgBase64}` : avatar} />
+          <div id="profile-img-container">
+            <img className="avatar" src={imgBase64 ? `${imgBase64}` : avatar} />
+          </div>
           {/* the btn triggers input */}
           <input
             id="upload-img-input"
