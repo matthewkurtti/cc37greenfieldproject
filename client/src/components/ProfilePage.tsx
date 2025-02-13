@@ -35,7 +35,6 @@ const ProfilePage = ({ loggedInUser, setCurrentModal }: ProfilePageProps) => {
       );
 
       const contributedProjects = await contributedProjectsResponse.json();
-      console.log(contributedProjects); // to be deleted
       setProjectContribution(contributedProjects);
     } catch (error) {
       console.error("Error fetching projects:", error);
