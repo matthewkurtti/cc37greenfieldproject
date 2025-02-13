@@ -188,6 +188,8 @@ function App() {
               ))}
           </ul>
         </section>
+        {/* Temporary fix to add a sapce to see the whole recent projects box ( height was added in App.css ) */}
+        <footer></footer>
       </main>
     </>
   );
