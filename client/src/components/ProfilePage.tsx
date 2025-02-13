@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faRightToBracket } from "@fortawesome/free-solid-svg-icons";
-import { getData, postData } from "../helpers/fetchHelpers";
+import { getData } from "../helpers/fetchHelpers";
 import { User, Project } from "../globalTypes";
 import "./ProfilePage.css";
 import avatar from "../assets/avatar.png";
@@ -8,11 +8,9 @@ import { ChangeEvent, useEffect } from "react";
 import React from "react";
 import ProjectPage from "./ProjectPage";
 import { useState, useRef } from "react";
-import AvatarEditor from "react-avatar-editor";
 
 type ProfilePageProps = {
   loggedInUser: User | null;
-  setLoggedInUser: Function;
   setCurrentModal: React.Dispatch<React.SetStateAction<JSX.Element | null>>;
 };
 
